@@ -6,7 +6,7 @@ import { renderRoutes } from 'react-router-config';
 import { store } from './redux/store';
 import { testReducerAction } from './redux/actions';
 import { routes } from './routes';
-import { mainTheme } from './helpers';
+import { mainTheme } from './helpers/customTheme';
 
 testReducerAction();
 export const App = () => {

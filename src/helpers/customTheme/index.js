@@ -1,22 +1,18 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import { palette } from './palette';
+import { typography } from './typography';
 
 export const mainTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#0074D9'
-    },
-    secondary: {
-      main: '#4caf50'
-    }
-  },
+  palette,
+  typography,
   overrides: {
     MuiOutlinedInput: {
       input: {
         '&:-webkit-autofill': {
           WebkitBoxShadow: '0 0 0 100px #fff inset',
-          WebkitTextFillColor: '#000000'
-        }
-      }
-    }
-  }
+          WebkitTextFillColor: '#000000',
+        },
+      },
+    },
+  },
 });

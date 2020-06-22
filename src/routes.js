@@ -1,9 +1,15 @@
-import HomePage from './views/homepage';
+import { Main, Homepage } from './views';
 
 export const routes = [
   {
     path: '/',
-    exact: true,
-    component: HomePage
-  }
+    component: Main,
+    routes: [
+      {
+        path: '/',
+        exact: true,
+        component: Homepage,
+      },
+    ],
+  },
 ];
