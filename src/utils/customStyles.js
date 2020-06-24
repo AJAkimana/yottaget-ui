@@ -9,6 +9,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   grow: {
     flexGrow: 1,
+    marginBottom: theme.spacing(0),
   },
   container: {
     padding: theme.spacing(0, 5),
@@ -16,12 +17,22 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  houseImages: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    // width: 500,
+    height: 450,
+  },
   servicesContainer: {
     margin: theme.spacing(5, 0),
-    // backgroundColor: 'green',
   },
   moreContainer: {
-    padding: theme.spacing(4),
+    paddingTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -96,9 +107,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   divider: {
     maxHeight: '50%',
-  },
-  services: {
-    maxWidth: 345,
   },
   paper: {
     height: 140,
