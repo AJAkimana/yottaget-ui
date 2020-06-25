@@ -1,2 +1,2 @@
 export * from './actionTypes';
-export * from './test.actions';
+export * from './auth.actions';

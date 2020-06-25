@@ -20,12 +20,13 @@ import {
 } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
 
-export const MainNavBar = () => {
+export const MainNavBar = ({ history }) => {
   const navs = [
     { name: 'Home', link: '/' },
     { name: 'Add you house', link: '/add-house' },
     { name: 'Help', link: '/help' },
-    { name: 'Sign up/Log in', link: '/sign' },
+    { name: 'Log in', link: '/signin' },
+    { name: 'Sign up', link: '/signup' },
   ];
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -135,12 +136,15 @@ export const MainNavBar = () => {
                 className={classes.gridHome}
                 key={navIndex}
               >
-                <Typography variant='subtitle1' color='inherit' noWrap>
+                <Typography
+                  variant='subtitle1'
+                  color='inherit'
+                  noWrap
+                  onClick={() => history.push(nav.link)}
+                >
                   {nav.name}
                 </Typography>
-                {nav.link !== '/sign' ? (
-                  <Divider orientation='vertical' className={classes.divider} />
-                ) : null}
+                <Divider orientation='vertical' className={classes.divider} />
               </Grid>
             ))}
             <div className={classes.grow} />

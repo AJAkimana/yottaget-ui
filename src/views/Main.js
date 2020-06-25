@@ -1,8 +1,8 @@
 import React from 'react';
-import { useScrollTrigger, Fab, Zoom, Toolbar } from '@material-ui/core';
+import { useScrollTrigger, Fab, Zoom, Toolbar, Box } from '@material-ui/core';
 import { KeyboardArrowUp } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
-import { MainNavBar } from '../components';
+import { MainNavBar, Copyright } from '../components';
 import { renderRoutes } from 'react-router-config';
 
 const ScrollTop = (props) => {
@@ -39,7 +39,7 @@ const ScrollTop = (props) => {
 export const Main = (props) => {
   return (
     <>
-      <MainNavBar />
+      <MainNavBar history={props.history} />
       <Toolbar disableGutters id='back-to-top-anchor' />
       {renderRoutes(props.route.routes)}
       <ScrollTop {...props}>
@@ -47,6 +47,9 @@ export const Main = (props) => {
           <KeyboardArrowUp />
         </Fab>
       </ScrollTop>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
     </>
   );
 };

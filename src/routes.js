@@ -1,4 +1,11 @@
-import { Main, Homepage, MoreHouses, HouseDetails } from './views';
+import {
+  Main,
+  Homepage,
+  MoreHouses,
+  HouseDetails,
+  SignIn,
+  SignUp,
+} from './views';
 
 export const routes = [
   {
@@ -9,6 +16,16 @@ export const routes = [
         path: '/',
         exact: true,
         component: Homepage,
+      },
+      {
+        path: '/signin',
+        exact: true,
+        component: SignIn,
+      },
+      {
+        path: '/signup',
+        exact: true,
+        component: SignUp,
       },
       {
         path: '/houses',

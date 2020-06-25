@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
-import { testReducer } from './testReducer';
+import { sessionReducer } from 'redux-react-session';
+import { userReducer } from './authReducer';
 
-export default combineReducers({ test: testReducer });
+export default combineReducers({ auth: userReducer, session: sessionReducer });
