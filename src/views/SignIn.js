@@ -59,6 +59,12 @@ export const SignIn = ({ location, history }) => {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
+        <div />
+        <div></div>
+        <div>{false}</div>
+        <div>{null}</div>
+        <div>{undefined}</div>
+        <div>{true}</div>
         <form className={classes.form} noValidate>
           <TextField
             variant='outlined'

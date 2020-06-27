@@ -17,16 +17,43 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  imageContainer: {
+    padding: theme.spacing(4),
+  },
+  description: {
+    marginTop: 10,
+  },
   houseImages: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(2),
+  },
+  buttons: {
+    marginTop: theme.spacing(2),
+    width: 150,
+  },
+  firstImage: {
+    borderRadius: 8,
+    maxHeight: '100%',
+    minHeight: '100%',
+    width: '100%',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  },
+  smallImage: {
+    backgroundColor: 'orange',
   },
   gridList: {
     // width: 500,
-    height: 450,
+    height: '100%',
+  },
+  secondImage: {
+    height: '100%',
+    maxHeight: '100%',
   },
   servicesContainer: {
     margin: theme.spacing(5, 0),
