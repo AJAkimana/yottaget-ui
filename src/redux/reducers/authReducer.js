@@ -1,8 +1,8 @@
-import { userState } from '../initialStates';
+import { loginState, registerState } from '../initialStates';
 import { fulfilled, pending, rejected } from '../utils/actions';
-import { LOGIN_USER, SET_LOGGED_USER } from '../actions/actionTypes';
+import { LOGIN_USER, REGISTER_USER } from '../actions/actionTypes';
 
-export const userReducer = (state = userState, action) => {
+export const loginReducer = (state = loginState, action) => {
   switch (action.type) {
     case pending(LOGIN_USER):
       return {
@@ -16,14 +16,27 @@ export const userReducer = (state = userState, action) => {
         loggedIn: true,
         userInfo: action.payload.data.data,
       };
-    case SET_LOGGED_USER:
-      return {
-        ...state,
-        isAuthenticated: true,
-        userInfo: action.payload,
-      };
     case rejected(LOGIN_USER):
     default:
-      return userState;
+      return loginState;
+  }
+};
+export const registerReducer = (state = registerState, action) => {
+  switch (action.type) {
+    case pending(REGISTER_USER):
+      return {
+        ...state,
+        registering: true,
+      };
+    case fulfilled(REGISTER_USER):
+      return {
+        ...state,
+        registering: false,
+        registered: true,
+        userInfo: action.payload.data.data,
+      };
+    case rejected(REGISTER_USER):
+    default:
+      return registerState;
   }
 };

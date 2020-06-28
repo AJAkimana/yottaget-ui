@@ -22,11 +22,11 @@ export const SignIn = ({ location, history }) => {
   const { redirectUrl } = queryString.parse(location.search);
   const classes = useStyles();
   const [user, setUser] = useState({ phone: '', password: '' });
-  const { auth, session } = useSelector(({ auth, session }) => ({
-    auth,
+  const { login, session } = useSelector(({ auth, session }) => ({
+    login,
     session,
   }));
-  const { loggedIn, loggingIn, userInfo } = auth;
+  const { loggedIn, loggingIn, userInfo } = login;
   const { authenticated } = session;
   const onInputChange = ({ target }) => {
     setUser({ ...user, [target.name]: target.value });
@@ -59,12 +59,6 @@ export const SignIn = ({ location, history }) => {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <div />
-        <div></div>
-        <div>{false}</div>
-        <div>{null}</div>
-        <div>{undefined}</div>
-        <div>{true}</div>
         <form className={classes.form} noValidate>
           <TextField
             variant='outlined'

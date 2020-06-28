@@ -8,15 +8,20 @@ import {
   Grid,
   Typography,
   Container,
+  MenuItem,
 } from '@material-ui/core';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { LockOutlined } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
 import { useSelector } from 'react-redux';
-import { sessionService } from 'redux-react-session';
 import { toast } from 'react-toastify';
+import { registerUser } from '../redux/actions';
 
+const userTypes = [
+  { lavel: 2, name: 'Landloard' },
+  { lavel: 3, name: 'Tenant' },
+];
 export const SignUp = ({ location, history }) => {
   const { redirectUrl } = queryString.parse(location.search);
   const classes = useStyles();
@@ -27,33 +32,38 @@ export const SignUp = ({ location, history }) => {
     email: '',
     confirmPassword: '',
     names: '',
+    a_level: 3,
   });
-  const { auth, session } = useSelector(({ auth, session }) => ({
-    auth,
+  const { register, session } = useSelector(({ register, session }) => ({
+    register,
     session,
   }));
-  const { loggedIn, userInfo } = auth;
+  const { registering, registered, userInfo } = register;
   const { authenticated } = session;
   useEffect(() => {
     if (authenticated) {
-      history.length ? history.goBack() : location.replace(redirectUrl || '/');
+      history.length ? history.goBack() : history.replace(redirectUrl || '/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, redirectUrl]);
   useEffect(() => {
-    if (loggedIn) {
-      sessionService.saveSession({ token: userInfo.token });
-      delete userInfo.token;
-      sessionService.saveUser(userInfo);
-      toast(`Welcome ${userInfo.names}`);
+    if (registered) {
+      toast(`Thanks ${userInfo.names} for registering, Go to login`);
       setTimeout(() => {
-        location.replace(redirectUrl || '/');
+        history.replace('/signin');
       }, 5000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn, userInfo]);
+  }, [registered, userInfo]);
   const onInputChange = ({ target }) => {
     setUser({ ...user, [target.name]: target.value });
+  };
+  const onRegister = () => {
+    if (user.password !== user.confirmPassword) {
+      toast('Password do not match', { type: toast.TYPE.ERROR });
+      return;
+    }
+    registerUser(user);
   };
   return (
     <Container component='main' maxWidth='xs'>
@@ -123,6 +133,25 @@ export const SignUp = ({ location, history }) => {
                 variant='outlined'
                 required
                 fullWidth
+                name='a_level'
+                label='User type'
+                id='a_level'
+                select
+                value={user.a_level}
+                onChange={onInputChange}
+              >
+                {userTypes.map((type, typeIndex) => (
+                  <MenuItem key={typeIndex} value={type.lavel}>
+                    {type.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant='outlined'
+                required
+                fullWidth
                 name='password'
                 label='Password'
                 type='password'
@@ -153,11 +182,12 @@ export const SignUp = ({ location, history }) => {
             </Grid>
           </Grid>
           <Button
-            type='submit'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
+            disabled={registering || registered}
+            onClick={() => onRegister()}
           >
             Sign Up
           </Button>

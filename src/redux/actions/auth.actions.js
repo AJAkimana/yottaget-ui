@@ -1,4 +1,4 @@
-import { LOGIN_USER, SET_LOGGED_USER } from './actionTypes';
+import { LOGIN_USER, REGISTER_USER } from './actionTypes';
 import { store } from '../store';
 import { http } from '../utils/http';
 
@@ -8,9 +8,10 @@ export const loginUser = (userInfo) => {
     payload: http.post('/users/login', userInfo),
   });
 };
-export const setLoggedUser = (user) => {
+export const registerUser = (user) => {
+  delete user.confirmPassword;
   store.dispatch({
-    type: SET_LOGGED_USER,
-    payload: user,
+    type: REGISTER_USER,
+    payload: http.post('/users/signup', user),
   });
 };
