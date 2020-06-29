@@ -32,12 +32,13 @@ export const housesReducer = (state = initialState, action) => {
     case fulfilled(GET_HOUSES):
       return {
         ...state,
-        loading: false,
+        loading: true,
         loaded: true,
         houses: action.payload.data.data,
       };
     case rejected(GET_HOUSES):
     default:
+      console.log('===============>rejected');
       return initialState;
   }
 };

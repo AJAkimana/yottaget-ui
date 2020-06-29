@@ -34,7 +34,7 @@ export const House = ({ houseUrl, name, utilities, price, location }) => {
           <Grid container alignItems='center' spacing={4}>
             {utilities.map((utility, utilityIndex) => (
               <Grid item key={utilityIndex}>
-                <Typography variant='caption'>{utility}</Typography>
+                <Typography variant='caption'>{utility.name}</Typography>
               </Grid>
             ))}
           </Grid>

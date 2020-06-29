@@ -5,10 +5,10 @@ import { sampleHousesReducer, housesReducer } from './housesReducer';
 import { oneHouseReducer } from './oneHouseReducer';
 
 export default combineReducers({
-  login: loginReducer,
   session: sessionReducer,
+  login: loginReducer,
   register: registerReducer,
   sampleHouses: sampleHousesReducer,
-  houses: housesReducer,
+  housesGet: housesReducer,
   oneHouse: oneHouseReducer,
 });

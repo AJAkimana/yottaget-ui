@@ -16,8 +16,6 @@ export const errorHandler = () => {
         } else {
           errorMessage = error.message;
         }
-        console.log('===============>', errorMessage);
-
         toast(errorMessage, {
           type: toast.TYPE.ERROR,
           position: toast.POSITION.BOTTOM_RIGHT,

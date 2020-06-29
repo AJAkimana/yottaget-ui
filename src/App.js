@@ -9,7 +9,11 @@ import { mainTheme } from './helpers/customTheme';
 import { ToastContainer } from 'react-toastify';
 import { sessionService } from 'redux-react-session';
 
-sessionService.initSessionService(store);
+sessionService.initSessionService(store, {
+  driver: 'COOKIES',
+  expires: process.env.REACT_APP_EXPIRES,
+  refreshOnCheckAuth: true,
+});
 export const App = () => {
   return (
     <Provider store={store}>
