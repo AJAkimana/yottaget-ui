@@ -22,7 +22,7 @@ export const SignIn = ({ location, history }) => {
   const { redirectUrl } = queryString.parse(location.search);
   const classes = useStyles();
   const [user, setUser] = useState({ phone: '', password: '' });
-  const { login, session } = useSelector(({ auth, session }) => ({
+  const { login, session } = useSelector(({ login, session }) => ({
     login,
     session,
   }));
