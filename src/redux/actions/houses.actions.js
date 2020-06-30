@@ -2,8 +2,8 @@ import { store } from '../store';
 import { GET_HOUSES, GET_SAMPLE_HOUSES } from './actionTypes';
 import { http } from '../utils/http';
 
-export const getHouses = (type = '', pageNumber = 1) => {
-  let actionUrl = `/houses?pageNumber=${pageNumber}`;
+export const getHouses = (page = 1, pageSize = 20, type = '') => {
+  let actionUrl = `/houses?page=${page}&pageSize=${pageSize}`;
   let actionType = GET_HOUSES;
   if (type !== '') {
     actionUrl += `&type=${type}`;

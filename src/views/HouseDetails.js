@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Grid,
@@ -9,81 +9,99 @@ import {
   Divider,
 } from '@material-ui/core';
 import { useStyles } from '../utils/customStyles';
+import { useSelector } from 'react-redux';
+import { getHouseDetails } from '../redux/actions';
+import { Skeleton } from '@material-ui/lab';
+import { Link } from 'react-router-dom';
 
-const houseUrl = `${process.env.PUBLIC_URL}/imgs/house-demo.png`;
-export const HouseDetails = () => {
+export const HouseDetails = ({ match }) => {
   const classes = useStyles();
+  const { oneHouse } = useSelector(({ oneHouse }) => ({ oneHouse }));
+  const { houseSlug } = match.params;
+  useEffect(() => {
+    getHouseDetails(houseSlug);
+  }, [houseSlug]);
+  const { house } = oneHouse;
   return (
     <Grid className={classes.imageContainer}>
-      <Typography>House for rent</Typography>
-      <Typography variant='h2' gutterBottom>
-        House for rent with Swimming pool
-      </Typography>
-      <Grid
-        container
-        component={Paper}
-        className={classes.houseImages}
-        elevation={5}
-      >
-        <Grid
-          item
-          md={6}
-          sm={12}
-          className={classes.firstImage}
-          style={{ backgroundImage: `url(${houseUrl})` }}
-        ></Grid>
-        <Grid item md={6} className={classes.secondImage}>
-          <GridList cellHeight={152} cols={2} className={classes.gridList}>
-            {[...Array(4).keys()].map((image, imageIndex) => (
-              <GridListTile key={imageIndex}>
-                <img src={houseUrl} alt={`House info num ${imageIndex + 1}`} />
-              </GridListTile>
-            ))}
-          </GridList>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} className={classes.description}>
-        <Grid item md={8} sm={12}>
-          <Typography variant='h3' gutterBottom>
-            Owner: Akimana JA
-          </Typography>
-          <Divider />
-          <Typography variant='h4' gutterBottom>
-            Description
-          </Typography>
+      {oneHouse.loading ? (
+        <>
           <Typography>
-            It has survived not only five centuries, but also the leap into
-            electronic typesetting, remaining essentially unchanged. It was
-            popularised in the 1960s with the release of Letraset sheets
-            containing Lorem Ipsum passages, and more recently with desktop
-            publishing software like Aldus PageMaker including versions of Lorem
-            Ipsum. Why do we use it? It is a long.
+            <Skeleton width='20%' />
           </Typography>
-        </Grid>
-        <Grid item md={4} sm={12}>
-          <Typography variant='h4' gutterBottom>
-            150,000 Rwf/month
+          <Typography variant='h2' gutterBottom>
+            <Skeleton width='30%' />
           </Typography>
-          <Grid container alignItems='center' spacing={4}>
-            {['Water', 'Electricity', 'Hospital', 'Market'].map(
-              (utility, utilityIndex) => (
-                <Grid item key={utilityIndex}>
-                  <Typography variant='caption'>{utility}</Typography>
-                </Grid>
-              )
-            )}
-          </Grid>
-          <Button
-            variant='contained'
-            size='small'
-            color='primary'
-            href={`/houses/buggatto`}
-            className={classes.buttons}
+          <Skeleton variant='rect' height={345} />
+        </>
+      ) : (
+        <>
+          <Typography>House for rent</Typography>
+          <Typography variant='h2' gutterBottom>
+            {house.description}
+          </Typography>
+          <Grid
+            container
+            component={Paper}
+            className={classes.houseImages}
+            elevation={5}
           >
-            Rent a house
-          </Button>
-        </Grid>
-      </Grid>
+            <Grid
+              item
+              md={6}
+              sm={12}
+              className={classes.firstImage}
+              style={{ backgroundImage: `url(${house.coverImage})` }}
+            />
+            <Grid item md={6} className={classes.secondImage}>
+              <GridList cellHeight={152} cols={2} className={classes.gridList}>
+                {house.images.map((image, imageIndex) => (
+                  <GridListTile key={imageIndex}>
+                    <img src={image.link} alt={house.description} />
+                  </GridListTile>
+                ))}
+              </GridList>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} className={classes.description}>
+            <Grid item md={8} xs={12}>
+              <Typography variant='h3' gutterBottom>
+                Owner: Akimana JA
+              </Typography>
+              <Typography variant='h4' gutterBottom>
+                Phone number: 07834543016
+              </Typography>
+              <Divider />
+              {/* <Typography variant='h4' gutterBottom>
+                Full description
+              </Typography>
+              <Typography>{house.description}</Typography> */}
+            </Grid>
+            <Grid item md={4} sm={12}>
+              <Typography variant='h4' gutterBottom>
+                {`${house.price} Rwf/month`}
+              </Typography>
+              <Grid container alignItems='center' spacing={4}>
+                {house.utilities.map((utility, utilityIndex) => (
+                  <Grid item key={utilityIndex}>
+                    <Typography variant='caption'>{utility.name}</Typography>
+                  </Grid>
+                ))}
+              </Grid>
+              <Button
+                variant='contained'
+                size='small'
+                color='primary'
+                component={Link}
+                to={`/houses/buggatto`}
+                className={classes.buttons}
+              >
+                Rent a house
+              </Button>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };

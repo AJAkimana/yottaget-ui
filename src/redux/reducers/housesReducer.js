@@ -1,6 +1,6 @@
 import { pending, fulfilled, rejected } from '../utils/actions';
 import { GET_SAMPLE_HOUSES, GET_HOUSES } from '../actions';
-const { baseState } = require('../initialStates');
+import { baseState } from '../initialStates';
 
 const initialState = baseState('houses', []);
 export const sampleHousesReducer = (state = initialState, action) => {
@@ -32,13 +32,12 @@ export const housesReducer = (state = initialState, action) => {
     case fulfilled(GET_HOUSES):
       return {
         ...state,
-        loading: true,
+        loading: false,
         loaded: true,
         houses: action.payload.data.data,
       };
     case rejected(GET_HOUSES):
     default:
-      console.log('===============>rejected');
       return initialState;
   }
 };

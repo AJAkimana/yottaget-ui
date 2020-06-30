@@ -123,6 +123,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   gridHome: {
+    cursor: 'pointer',
     width: 'fit-content',
     '& svg': {
       margin: theme.spacing(1.5),

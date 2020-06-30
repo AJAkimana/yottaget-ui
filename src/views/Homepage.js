@@ -10,7 +10,8 @@ import {
   CardMedia,
 } from '@material-ui/core';
 import { useStyles } from '../utils/customStyles';
-import { House } from '../components/commons';
+import { Link } from 'react-router-dom';
+import { HousesGrid } from '../components';
 
 const houseUrl = `${process.env.PUBLIC_URL}/imgs/house-demo.png`;
 export const Homepage = () => {
@@ -56,22 +57,15 @@ export const Homepage = () => {
             </Grid>
           ))}
         </Grid>
-        <Grid container spacing={2}>
-          {[0, 1, 2].map((value) => (
-            <Grid key={value} item md={4} sm={12}>
-              <House
-                houseUrl={houseUrl}
-                name='With water and electricity'
-                price='30000'
-                utilities={['Water', 'Electricity', 'Hospital', 'Market']}
-                location='Gitega'
-              />
-            </Grid>
-          ))}
-        </Grid>
+        <HousesGrid page={1} pageSize={3} />
         <Grid container className={classes.moreContainer}>
           <Grid item>
-            <Button variant='contained' color='primary' href='/houses'>
+            <Button
+              variant='contained'
+              component={Link}
+              to='/houses'
+              color='primary'
+            >
               View more houses
             </Button>
           </Grid>
