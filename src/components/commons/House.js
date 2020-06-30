@@ -11,8 +11,9 @@ import {
 } from '@material-ui/core';
 import { useBouncyShadowStyles } from '@mui-treasury/styles/shadow/bouncy';
 import { useStyles } from '../../utils/customStyles';
+import { Link } from 'react-router-dom';
 
-export const House = ({ houseUrl, name, utilities, price, location }) => {
+export const House = ({ houseUrl, name, utilities, price, location, slug }) => {
   const shadowStyles = useBouncyShadowStyles();
   const classes = useStyles();
   return (
@@ -21,7 +22,7 @@ export const House = ({ houseUrl, name, utilities, price, location }) => {
         <CardMedia
           className={classes.media}
           image={houseUrl}
-          title='Contemplative Reptile'
+          title='House cover'
         />
         <CardContent>
           <Typography gutterBottom variant='h4' component='h2'>
@@ -41,8 +42,21 @@ export const House = ({ houseUrl, name, utilities, price, location }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size='small' color='primary' href={`/houses/${location}`}>
+        <Button
+          component={Link}
+          to={`/houses/${slug}`}
+          size='small'
+          color='primary'
+        >
           Rent a house
+        </Button>
+        <Button
+          component={Link}
+          to={`/houses/${slug}`}
+          size='small'
+          color='primary'
+        >
+          View details
         </Button>
       </CardActions>
     </Card>

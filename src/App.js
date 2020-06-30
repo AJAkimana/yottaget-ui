@@ -9,9 +9,11 @@ import { mainTheme } from './helpers/customTheme';
 import { ToastContainer } from 'react-toastify';
 import { sessionService } from 'redux-react-session';
 
+const dt = new Date();
+const expiredTime = new Date(dt.setDate(dt.getDate() + 7));
 sessionService.initSessionService(store, {
-  driver: 'COOKIES',
-  expires: process.env.REACT_APP_EXPIRES,
+  driver: process.env.REACT_APP_SESSION_DRIVER,
+  expires: expiredTime,
   refreshOnCheckAuth: true,
 });
 export const App = () => {
