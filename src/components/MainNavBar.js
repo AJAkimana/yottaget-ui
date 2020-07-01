@@ -19,6 +19,7 @@ import {
   Search,
 } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
+import { SearchHouse } from './SearchHouse';
 
 export const MainNavBar = ({ history }) => {
   const navs = [
@@ -118,14 +119,15 @@ export const MainNavBar = ({ history }) => {
             <div className={classes.searchIcon}>
               <Search />
             </div>
-            <InputBase
+            <SearchHouse />
+            {/* <InputBase
               placeholder='Search…'
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            />
+            /> */}
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
