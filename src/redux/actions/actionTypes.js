@@ -7,3 +7,5 @@ export const GET_HOUSES = 'GET_HOUSES';
 export const GET_HOUSE_DETAILS = 'GET_HOUSE_DETAILS';
 export const CREATE_HOUSE = 'CREATE_HOUSE';
 export const ADD_UTILITIES = 'ADD_UTILITIES';
+
+export const SEARCH_HOUSES = 'SEARCH_HOUSES';

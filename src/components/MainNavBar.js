@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -21,14 +21,15 @@ import {
 import { useStyles } from '../utils/customStyles';
 import { SearchHouse } from './SearchHouse';
 
+const navs = [
+  { name: 'Home', link: '/' },
+  { name: 'Add you house', link: '/add-house' },
+  { name: 'Help', link: '/help' },
+  { name: 'Log in', link: '/signin' },
+  { name: 'Sign up', link: '/signup' },
+];
 export const MainNavBar = ({ history }) => {
-  const navs = [
-    { name: 'Home', link: '/' },
-    { name: 'Add you house', link: '/add-house' },
-    { name: 'Help', link: '/help' },
-    { name: 'Log in', link: '/signin' },
-    { name: 'Sign up', link: '/signup' },
-  ];
+  const [openSearch, setOpenSearch] = useState(false);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -96,6 +97,7 @@ export const MainNavBar = ({ history }) => {
 
   return (
     <div className={classes.grow}>
+      <SearchHouse open={openSearch} setOpen={() => setOpenSearch(false)} />
       <CssBaseline />
       <AppBar>
         <Toolbar>
@@ -119,15 +121,15 @@ export const MainNavBar = ({ history }) => {
             <div className={classes.searchIcon}>
               <Search />
             </div>
-            <SearchHouse />
-            {/* <InputBase
+            <InputBase
               placeholder='Search…'
+              onPointerEnter={() => setOpenSearch(true)}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            /> */}
+            />
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

@@ -2,7 +2,11 @@ import { baseState } from '../initialStates';
 import { pending, rejected, fulfilled } from '../utils/actions';
 import { GET_HOUSE_DETAILS } from '../actions';
 
-const initialState = baseState('house', {});
+const initialState = baseState('house', {
+  images: [],
+  utilities: [],
+  location: {},
+});
 export const oneHouseReducer = (state = initialState, action) => {
   switch (action.type) {
     case pending(GET_HOUSE_DETAILS):
