@@ -9,8 +9,13 @@ import {
   NotFound,
 } from './views';
 import { Redirect } from 'react-router-dom';
+import { AdminMain } from './views/AdminMain';
 
 export const routes = [
+  {
+    path: '/admin',
+    component: AdminMain,
+  },
   {
     path: '/',
     component: Main,
