@@ -46,7 +46,8 @@ export const SearchHouse = ({ open, setOpen }) => {
           id='searchKey'
           label='Search'
           type='text'
-          onChange={({ target }) => setSearchKey(target.value)}
+          value={searchKey}
+          onChange={(e) => setSearchKey(e.target.value)}
           fullWidth
         />
         {loading ? (

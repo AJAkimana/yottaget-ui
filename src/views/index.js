@@ -6,3 +6,5 @@ export * from './SignIn';
 export * from './SignUp';
 export * from './NotFound';
 export * from './AdminMain';
+export * from './Dashboard';
+export * from './Users';

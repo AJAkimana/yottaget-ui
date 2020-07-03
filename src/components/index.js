@@ -5,3 +5,6 @@ export * from './HousesLoading';
 export * from './HousesGrid';
 export * from './SearchHouse';
 export * from './SearchHouse';
+export * from './DashboardCounts';
+export * from './UsersToolbar';
+export * from './UsersTable';
