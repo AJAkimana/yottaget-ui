@@ -9,7 +9,10 @@ import {
   NotFound,
   AdminMain,
   Dashboard,
-  Users,
+  AdminUsers,
+  AdminHouses,
+  Account,
+  Settings,
 } from './views';
 import { Redirect } from 'react-router-dom';
 
@@ -26,7 +29,22 @@ export const routes = [
       {
         path: '/admin/users',
         exact: true,
-        component: Users,
+        component: AdminUsers,
+      },
+      {
+        path: '/admin/houses',
+        exact: true,
+        component: AdminHouses,
+      },
+      {
+        path: '/admin/account',
+        exact: true,
+        component: Account,
+      },
+      {
+        path: '/admin/settings',
+        exact: true,
+        component: Settings,
       },
     ],
   },

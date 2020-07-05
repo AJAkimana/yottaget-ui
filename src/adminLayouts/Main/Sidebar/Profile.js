@@ -26,15 +26,15 @@ export const Profile = (props) => {
   const classes = useStyles();
 
   const user = {
-    name: 'Shen Zhi',
+    name: 'Kalisa Callixte',
     avatar: '/images/avatars/avatar_11.png',
-    bio: 'Brain Director',
+    role: 'Administrator',
   };
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
       <Avatar
-        alt='Person'
+        alt={user.name}
         className={classes.avatar}
         component={RouterLink}
         src={user.avatar}
@@ -43,7 +43,7 @@ export const Profile = (props) => {
       <Typography className={classes.name} variant='h4'>
         {user.name}
       </Typography>
-      <Typography variant='body2'>{user.bio}</Typography>
+      <Typography variant='body2'>{user.role}</Typography>
     </div>
   );
 };

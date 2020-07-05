@@ -27,23 +27,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const UsersToolbar = (props) => {
-  const { className, ...rest } = props;
-
+export const AdminToolbar = ({ className, searchTitle, btnTitle }) => {
   const classes = useStyles();
 
   return (
-    <div {...rest} className={clsx(classes.root, className)}>
+    <div className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <span className={classes.spacer} />
         <Button color='primary' variant='contained'>
-          Add user
+          {btnTitle}
         </Button>
       </div>
       <div className={classes.row}>
         <SearchInput
           className={classes.searchInput}
-          placeholder='Search user'
+          placeholder={searchTitle}
         />
       </div>
     </div>

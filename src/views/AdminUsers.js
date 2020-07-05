@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { UsersToolbar, UsersTable } from '../components';
+import { UsersTable, AdminToolbar } from '../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,12 +11,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-export const Users = () => {
+export const AdminUsers = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <UsersToolbar />
+      <AdminToolbar searchTitle='Search user' btnTitle='Add a new user' />
       <div className={classes.content}>{<UsersTable users={[]} />}</div>
     </div>
   );

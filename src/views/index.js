@@ -7,4 +7,7 @@ export * from './SignUp';
 export * from './NotFound';
 export * from './AdminMain';
 export * from './Dashboard';
-export * from './Users';
+export * from './AdminUsers';
+export * from './AdminHouses';
+export * from './Account';
+export * from './Settings';
