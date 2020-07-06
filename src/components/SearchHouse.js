@@ -18,7 +18,7 @@ import { useStyles } from '../utils/customStyles';
 import { useSelector } from 'react-redux';
 import { searchHouses } from '../redux/actions';
 
-export const SearchHouse = ({ open, setOpen }) => {
+export const SearchHouse = ({ open, setOpen, history }) => {
   const classes = useStyles();
   const [searchKey, setSearchKey] = useState('');
   const { loading, loaded, results } = useSelector(({ search }) => search);
@@ -27,6 +27,11 @@ export const SearchHouse = ({ open, setOpen }) => {
       searchHouses(searchKey);
     }
   }, [searchKey]);
+  const goTo = (type, item) => {
+    setOpen();
+    const location = type === 'location' ? `?${item}` : `/${item}`;
+    history.replace(`/houses${location}`);
+  };
   return (
     <Dialog
       open={open}
@@ -58,7 +63,12 @@ export const SearchHouse = ({ open, setOpen }) => {
             <List className={classes.searchListRoot}>
               {results.houses.length ? (
                 results.houses.map((house, houseIndex) => (
-                  <ListItem button alignItems='flex-start' key={houseIndex}>
+                  <ListItem
+                    button
+                    alignItems='flex-start'
+                    key={houseIndex}
+                    onClick={() => goTo('houses', house.slug)}
+                  >
                     <ListItemAvatar>
                       <Avatar alt='House' src='/static/images/avatar/1.jpg' />
                     </ListItemAvatar>
@@ -90,7 +100,11 @@ export const SearchHouse = ({ open, setOpen }) => {
                 <>
                   <Typography component='h4'>Locations</Typography>
                   {results.locations.map((location, locationIndex) => (
-                    <ListItem button key={locationIndex}>
+                    <ListItem
+                      button
+                      key={locationIndex}
+                      onClick={() => goTo('location', location.name)}
+                    >
                       <ListItemText primary={location.name} />
                     </ListItem>
                   ))}

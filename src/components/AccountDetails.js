@@ -74,7 +74,7 @@ export const AccountDetails = (props) => {
                 margin='dense'
                 name='email'
                 onChange={handleChange}
-                required
+                disabled
                 value={values.email}
                 variant='outlined'
               />
@@ -87,6 +87,7 @@ export const AccountDetails = (props) => {
                 name='phone'
                 onChange={handleChange}
                 type='number'
+                disabled
                 value={values.phone}
                 variant='outlined'
               />

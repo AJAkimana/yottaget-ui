@@ -23,7 +23,7 @@ import { SearchHouse } from './SearchHouse';
 
 const navs = [
   { name: 'Home', link: '/' },
-  { name: 'Add you house', link: '/add-house' },
+  { name: 'Add your house', link: '/add-house' },
   { name: 'Help', link: '/help' },
   { name: 'Log in', link: '/signin' },
   { name: 'Sign up', link: '/signup' },
@@ -97,7 +97,11 @@ export const MainNavBar = ({ history }) => {
 
   return (
     <div className={classes.grow}>
-      <SearchHouse open={openSearch} setOpen={() => setOpenSearch(false)} />
+      <SearchHouse
+        open={openSearch}
+        setOpen={() => setOpenSearch(false)}
+        history={history}
+      />
       <CssBaseline />
       <AppBar>
         <Toolbar>

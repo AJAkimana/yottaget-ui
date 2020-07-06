@@ -1,13 +1,12 @@
 import { store } from '../store';
-import { GET_HOUSES, GET_SAMPLE_HOUSES, SEARCH_HOUSES } from './actionTypes';
+import { GET_HOUSES, SEARCH_HOUSES } from './actionTypes';
 import { http } from '../utils/http';
 
-export const getHouses = (page = 1, pageSize = 20, type = '') => {
+export const getHouses = (page = 1, pageSize = 20, area = '') => {
   let actionUrl = `/houses?page=${page}&pageSize=${pageSize}`;
   let actionType = GET_HOUSES;
-  if (type !== '') {
-    actionUrl += `&type=${type}`;
-    actionType = GET_SAMPLE_HOUSES;
+  if (area !== '') {
+    actionUrl += `&area=${area}`;
   }
   store.dispatch({
     type: actionType,
