@@ -199,4 +199,14 @@ export const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  stepsPaper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(8),
+      marginBottom: theme.spacing(8),
+      padding: theme.spacing(3),
+    },
+  },
 }));

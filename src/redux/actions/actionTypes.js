@@ -8,4 +8,8 @@ export const GET_HOUSE_DETAILS = 'GET_HOUSE_DETAILS';
 export const CREATE_HOUSE = 'CREATE_HOUSE';
 export const ADD_UTILITIES = 'ADD_UTILITIES';
 
+export const GET_LOCATIONS = 'GET_LOCATIONS';
+
+export const GET_USERS = 'GET_USERS';
+
 export const SEARCH_HOUSES = 'SEARCH_HOUSES';

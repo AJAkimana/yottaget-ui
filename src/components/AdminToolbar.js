@@ -27,14 +27,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AdminToolbar = ({ className, searchTitle, btnTitle }) => {
+export const AdminToolbar = ({
+  className,
+  searchTitle,
+  btnTitle,
+  openDialog,
+}) => {
   const classes = useStyles();
 
   return (
     <div className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <span className={classes.spacer} />
-        <Button color='primary' variant='contained'>
+        <Button color='primary' variant='contained' onClick={openDialog}>
           {btnTitle}
         </Button>
       </div>

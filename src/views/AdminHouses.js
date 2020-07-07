@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { AdminToolbar, HousesTable } from '../components';
+import { AdminToolbar, HousesTable, AddHouseDialog } from '../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,10 +13,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 export const AdminHouses = () => {
   const classes = useStyles();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className={classes.root}>
-      <AdminToolbar searchTitle='Search house' btnTitle='Add house' />
+      <AddHouseDialog isOpen={isOpen} setIsOpen={() => setIsOpen(false)} />
+      <AdminToolbar
+        searchTitle='Search house'
+        btnTitle='Add house'
+        openDialog={() => setIsOpen(true)}
+      />
       <div className={classes.content}>{<HousesTable users={[]} />}</div>
     </div>
   );

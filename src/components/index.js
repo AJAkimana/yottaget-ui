@@ -12,3 +12,5 @@ export * from './HousesTable';
 export * from './AccountDetails';
 export * from './AccountProfile';
 export * from './ChangePassword';
+export * from './AddHouseDialog';
+export * from './HouseImages';
