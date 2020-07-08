@@ -19,7 +19,7 @@ export const sampleHousesReducer = (state = initialState, action) => {
       };
     case rejected(GET_SAMPLE_HOUSES):
     default:
-      return initialState;
+      return { ...state, loading: false };
   }
 };
 export const housesReducer = (state = initialState, action) => {
@@ -38,7 +38,7 @@ export const housesReducer = (state = initialState, action) => {
       };
     case rejected(GET_HOUSES):
     default:
-      return initialState;
+      return { ...state, loading: false };
   }
 };
 export const searchReducer = (state = searchState, action) => {
@@ -57,6 +57,6 @@ export const searchReducer = (state = searchState, action) => {
       };
     case rejected(SEARCH_HOUSES):
     default:
-      return searchState;
+      return { ...state, loading: false };
   }
 };

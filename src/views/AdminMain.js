@@ -5,6 +5,7 @@ import { useMediaQuery } from '@material-ui/core';
 
 import { Sidebar, Topbar } from '../adminLayouts/Main';
 import { renderRoutes } from 'react-router-config';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const AdminMain = ({ route }) => {
   const classes = useStyles();
+  const { authenticated, user } = useSelector(({ session }) => session);
+  const isUserAllowed = authenticated && Number(user.a_level) < 3;
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true,
@@ -38,9 +41,7 @@ export const AdminMain = ({ route }) => {
   const handleSidebarClose = () => {
     setOpenSidebar(false);
   };
-
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
-
   return (
     <div
       className={clsx({

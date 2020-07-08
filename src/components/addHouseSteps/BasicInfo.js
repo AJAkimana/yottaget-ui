@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Grid,
   TextField,
@@ -8,6 +8,8 @@ import {
   MenuItem,
   Button,
 } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { getUsers, getLocations } from '../../redux/actions';
 
 export const BasicInfo = ({
   handleNext,
@@ -16,8 +18,16 @@ export const BasicInfo = ({
   filedError,
   isError,
 }) => {
-  const isEmpty = description.length > 0 && userId.length > 0;
-
+  const isEmpty = locationId !== '' && userId !== '';
+  const {
+    usersGet: { users },
+    locationsGet: { locations },
+  } = useSelector(({ usersGet, locationsGet }) => ({ usersGet, locationsGet }));
+  useEffect(() => {
+    getLocations();
+    getUsers('landload');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Grid container spacing={2} noValidate>
@@ -56,8 +66,15 @@ export const BasicInfo = ({
           <FormControl fullWidth required margin='normal'>
             <InputLabel htmlFor='userId'>House owner</InputLabel>
             <Select value={userId} onChange={handleChange('userId')}>
-              <MenuItem value={'Male'}>Male</MenuItem>
-              <MenuItem value={'Female'}>Female</MenuItem>
+              {users.length ? (
+                users.map((user, userIndex) => (
+                  <MenuItem value={user.id} key={userIndex}>
+                    {user.names}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem value=''>---Select user--</MenuItem>
+              )}
             </Select>
           </FormControl>
         </Grid>
@@ -65,8 +82,15 @@ export const BasicInfo = ({
           <FormControl fullWidth required margin='normal'>
             <InputLabel htmlFor='locationId'>Location</InputLabel>
             <Select value={locationId} onChange={handleChange('locationId')}>
-              <MenuItem value={'Male'}>Male</MenuItem>
-              <MenuItem value={'Female'}>Female</MenuItem>
+              {locations.length ? (
+                locations.map((location, locationIndex) => (
+                  <MenuItem value={location.id} key={locationIndex}>
+                    {location.name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem value=''>---Select location--</MenuItem>
+              )}
             </Select>
           </FormControl>
         </Grid>

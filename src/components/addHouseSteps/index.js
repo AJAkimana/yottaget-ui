@@ -11,9 +11,9 @@ const labels = ['House information', 'Cover image', 'Images', 'Confirmation'];
 export const AddHouseSteps = () => {
   const [steps, setSteps] = useState(0);
   const [fields, setFields] = useState({
-    description: 'Some description',
-    userId: 'Male',
-    locationId: 'Female',
+    description: 'Some description n',
+    userId: '',
+    locationId: '',
     price: '35000',
   });
   const [images, setImages] = useState([]);
@@ -99,6 +99,7 @@ export const AddHouseSteps = () => {
             values={fields}
             coverImage={coverImage}
             images={images}
+            setImages={setImages}
           />
         );
       default:

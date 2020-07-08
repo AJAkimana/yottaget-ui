@@ -1,6 +1,6 @@
-import { store } from '../store';
 import { GET_USERS } from './actionTypes';
 import { http } from '../utils/http';
+import { store } from '../store';
 
 export const getUsers = (type = '') => {
   store.dispatch({

@@ -23,6 +23,6 @@ export const oneHouseReducer = (state = initialState, action) => {
       };
     case rejected(GET_HOUSE_DETAILS):
     default:
-      return initialState;
+      return { ...state, loading: false };
   }
 };

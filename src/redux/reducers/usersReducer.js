@@ -1,7 +1,6 @@
 import { pending, rejected, fulfilled } from '../utils/actions';
 import { GET_USERS } from '../actions';
-
-const { baseState } = require('../initialStates');
+import { baseState } from '../initialStates';
 
 const initialState = baseState('users', []);
 export const usersReducer = (state = initialState, action) => {
@@ -20,6 +19,6 @@ export const usersReducer = (state = initialState, action) => {
       };
     case rejected(GET_USERS):
     default:
-      return initialState;
+      return { ...state, loading: false };
   }
 };

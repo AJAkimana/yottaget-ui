@@ -14,7 +14,7 @@ const expiredTime = new Date(dt.setDate(dt.getDate() + 7));
 sessionService.initSessionService(store, {
   driver: process.env.REACT_APP_SESSION_DRIVER,
   expires: expiredTime,
-  refreshOnCheckAuth: false,
+  refreshOnCheckAuth: true,
 });
 export const App = () => {
   return (

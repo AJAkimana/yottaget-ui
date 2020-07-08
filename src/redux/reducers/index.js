@@ -7,6 +7,8 @@ import {
   searchReducer,
 } from './housesReducer';
 import { oneHouseReducer } from './oneHouseReducer';
+import { usersReducer } from './usersReducer';
+import { locationsReducer } from './locationsReducer';
 
 export default combineReducers({
   session: sessionReducer,
@@ -16,4 +18,6 @@ export default combineReducers({
   housesGet: housesReducer,
   oneHouse: oneHouseReducer,
   search: searchReducer,
+  usersGet: usersReducer,
+  locationsGet: locationsReducer,
 });

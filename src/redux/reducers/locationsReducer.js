@@ -1,10 +1,9 @@
 import { pending, rejected, fulfilled } from '../utils/actions';
 import { GET_LOCATIONS } from '../actions';
-
-const { baseState } = require('../initialStates');
+import { baseState } from '../initialStates';
 
 const initialState = baseState('locations', []);
-export const usersReducer = (state = initialState, action) => {
+export const locationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case pending(GET_LOCATIONS):
       return {
@@ -20,6 +19,6 @@ export const usersReducer = (state = initialState, action) => {
       };
     case rejected(GET_LOCATIONS):
     default:
-      return initialState;
+      return { ...state, loading: false };
   }
 };

@@ -13,3 +13,6 @@ export const http = axios.create({
     Authorization: token,
   },
 });
+export const cloudinaryHttp = axios.create({
+  baseURL: process.env.REACT_APP_CLOUD_URL,
+});
