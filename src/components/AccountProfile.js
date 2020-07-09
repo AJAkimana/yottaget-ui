@@ -11,6 +11,8 @@ import {
   Divider,
   Button,
 } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { toAccess } from '../helpers';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -36,11 +38,8 @@ export const AccountProfile = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-
-  const user = {
-    role: 'Administrator',
-    timezone: 'Kigali',
-  };
+  const { user } = useSelector(({ session }) => session);
+  user.timezone = 'Kigali';
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
@@ -48,14 +47,14 @@ export const AccountProfile = (props) => {
         <div className={classes.details}>
           <div>
             <Typography gutterBottom variant='h2'>
-              Kalisa Calixte
+              {user.names}
             </Typography>
             <Typography
               className={classes.locationText}
               color='textSecondary'
               variant='body1'
             >
-              {user.role}
+              {toAccess(user.a_level)}
             </Typography>
             <Typography
               className={classes.dateText}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -18,7 +18,9 @@ import {
   TablePagination,
 } from '@material-ui/core';
 
-import { getInitials } from '../helpers';
+import { toAccess } from '../helpers';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getUsers } from '../redux/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -41,17 +43,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const UsersTable = (props) => {
-  const { className, users, ...rest } = props;
+  const { className, ...rest } = props;
 
   const classes = useStyles();
 
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-
+  const {
+    addUser: { loaded },
+    usersGet: { loading, users },
+  } = useSelector(({ addUser, usersGet }) => ({ addUser, usersGet }));
+  useEffect(() => {
+    getUsers('all');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shallowEqual]);
+  useEffect(() => {
+    getUsers('all');
+  }, [loaded]);
   const handleSelectAll = (event) => {
-    const { users } = props;
-
     let selectedUsers;
 
     if (event.target.checked) {
@@ -96,64 +106,70 @@ export const UsersTable = (props) => {
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           <div className={classes.inner}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell padding='checkbox'>
-                    <Checkbox
-                      checked={selectedUsers.length === users.length}
-                      color='primary'
-                      indeterminate={
-                        selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users.slice(0, rowsPerPage).map((user) => (
-                  <TableRow
-                    className={classes.tableRow}
-                    hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
-                  >
+            {loading ? (
+              <Typography>Loading please wait, ...</Typography>
+            ) : users.length ? (
+              <Table>
+                <TableHead>
+                  <TableRow>
                     <TableCell padding='checkbox'>
                       <Checkbox
-                        checked={selectedUsers.indexOf(user.id) !== -1}
+                        checked={selectedUsers.length === users.length}
                         color='primary'
-                        onChange={(event) => handleSelectOne(event, user.id)}
-                        value='true'
+                        indeterminate={
+                          selectedUsers.length > 0 &&
+                          selectedUsers.length < users.length
+                        }
+                        onChange={handleSelectAll}
                       />
                     </TableCell>
-                    <TableCell>
-                      <div className={classes.nameContainer}>
-                        <Avatar className={classes.avatar} src={user.avatarUrl}>
-                          {getInitials(user.name)}
-                        </Avatar>
-                        <Typography variant='body1'>{user.name}</Typography>
-                      </div>
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Access level</TableCell>
+                    <TableCell>Phone</TableCell>
+                    <TableCell>Registration date</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {users.slice(0, rowsPerPage).map((user) => (
+                    <TableRow
+                      className={classes.tableRow}
+                      hover
+                      key={user.id}
+                      selected={selectedUsers.indexOf(user.id) !== -1}
+                    >
+                      <TableCell padding='checkbox'>
+                        <Checkbox
+                          checked={selectedUsers.indexOf(user.id) !== -1}
+                          color='primary'
+                          onChange={(event) => handleSelectOne(event, user.id)}
+                          value='true'
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div className={classes.nameContainer}>
+                          <Avatar
+                            className={classes.avatar}
+                            src={user.avatarUrl}
+                          >
+                            {user.names}
+                          </Avatar>
+                          <Typography variant='body1'>{user.names}</Typography>
+                        </div>
+                      </TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{toAccess(user.a_level)}</TableCell>
+                      <TableCell>{user.phone}</TableCell>
+                      <TableCell>
+                        {moment(user.createdAt).format('DD/MM/YYYY')}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <Typography>No data found</Typography>
+            )}
           </div>
         </PerfectScrollbar>
       </CardContent>

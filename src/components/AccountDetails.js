@@ -8,9 +8,10 @@ import {
   CardActions,
   Divider,
   Grid,
-  Button,
   TextField,
 } from '@material-ui/core';
+import { BtnSaver } from './commons';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -20,19 +21,11 @@ export const AccountDetails = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
+  const { user: theUser } = useSelector(({ session }) => session);
+  const [user, setUser] = useState(theUser);
 
-  const [values, setValues] = useState({
-    firstName: 'Callixte',
-    lastName: 'Kalisa',
-    email: 'kalisa@email.com',
-    phone: '078345677',
-  });
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
+  const handleChange = ({ target: { name, value } }) => {
+    setUser({ ...user, [name]: value });
   };
 
   return (
@@ -45,25 +38,25 @@ export const AccountDetails = (props) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText='Please specify the first name'
-                label='First name'
+                helperText='Please specify your names'
+                label='Names'
                 margin='dense'
-                name='firstName'
+                name='names'
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={user.names}
                 variant='outlined'
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label='Last name'
+                label='Username'
                 margin='dense'
-                name='lastName'
+                name='username'
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={user.username}
                 variant='outlined'
               />
             </Grid>
@@ -75,7 +68,7 @@ export const AccountDetails = (props) => {
                 name='email'
                 onChange={handleChange}
                 disabled
-                value={values.email}
+                value={user.email}
                 variant='outlined'
               />
             </Grid>
@@ -86,9 +79,8 @@ export const AccountDetails = (props) => {
                 margin='dense'
                 name='phone'
                 onChange={handleChange}
-                type='number'
                 disabled
-                value={values.phone}
+                value={user.phone}
                 variant='outlined'
               />
             </Grid>
@@ -96,9 +88,7 @@ export const AccountDetails = (props) => {
         </CardContent>
         <Divider />
         <CardActions>
-          <Button color='primary' variant='contained'>
-            Save details
-          </Button>
+          <BtnSaver />
         </CardActions>
       </form>
     </Card>

@@ -20,13 +20,19 @@ import {
 } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
 import { SearchHouse } from './SearchHouse';
+import { useSelector } from 'react-redux';
 
-const navs = [
+const nonAuthnavs = [
   { name: 'Home', link: '/' },
-  { name: 'Add your house', link: '/add-house' },
+  { name: 'Admin dashboard', link: '/admin/dashboard' },
+  { name: 'Add your house', link: '/admin/houses' },
   { name: 'Help', link: '/help' },
-  { name: 'Log in', link: '/signin' },
-  { name: 'Sign up', link: '/signup' },
+];
+const authNavs = [
+  { name: 'Home', link: '/' },
+  { name: 'Admin dashboard', link: '/admin/dashboard' },
+  { name: 'Add your house', link: '/admin/houses' },
+  { name: 'Help', link: '/help' },
 ];
 export const MainNavBar = ({ history }) => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -36,7 +42,8 @@ export const MainNavBar = ({ history }) => {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const { authenticated, user } = useSelector(({ session }) => session);
+  const navs = authenticated ? authNavs : nonAuthnavs;
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -155,6 +162,23 @@ export const MainNavBar = ({ history }) => {
                 <Divider orientation='vertical' className={classes.divider} />
               </Grid>
             ))}
+
+            <Grid container alignItems='center' className={classes.gridHome}>
+              {authenticated ? (
+                <Typography variant='subtitle1' color='inherit' noWrap>
+                  {user.names}
+                </Typography>
+              ) : (
+                <Typography
+                  variant='subtitle1'
+                  color='inherit'
+                  noWrap
+                  onClick={() => history.push('/signin')}
+                >
+                  Sign in
+                </Typography>
+              )}
+            </Grid>
             <div className={classes.grow} />
             <Button variant='contained' color='primary'>
               Contact us!

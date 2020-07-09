@@ -6,6 +6,7 @@ import { useMediaQuery } from '@material-ui/core';
 import { Sidebar, Topbar } from '../adminLayouts/Main';
 import { renderRoutes } from 'react-router-config';
 import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AdminMain = ({ route }) => {
+export const AdminMain = ({ route, history }) => {
   const classes = useStyles();
   const { authenticated, user } = useSelector(({ session }) => session);
   const isUserAllowed = authenticated && Number(user.a_level) < 3;
@@ -42,6 +43,9 @@ export const AdminMain = ({ route }) => {
     setOpenSidebar(false);
   };
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
+  if (!isUserAllowed) {
+    return <Redirect to='/' />;
+  }
   return (
     <div
       className={clsx({
@@ -49,7 +53,7 @@ export const AdminMain = ({ route }) => {
         [classes.shiftContent]: isDesktop,
       })}
     >
-      <Topbar onSidebarOpen={handleSidebarOpen} />
+      <Topbar onSidebarOpen={handleSidebarOpen} history={history} />
       <Sidebar
         onClose={handleSidebarClose}
         open={shouldOpenSidebar}

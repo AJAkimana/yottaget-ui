@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -13,6 +13,9 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
+import { logoutUser } from '../../redux/actions';
+import { useSelector } from 'react-redux';
+import { sessionService } from 'redux-react-session';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,9 +33,16 @@ export const Topbar = (props) => {
   const { className, onSidebarOpen, ...rest } = props;
 
   const classes = useStyles();
-
   const [notifications] = useState([]);
-
+  const { loaded } = useSelector(({ userOut }) => userOut);
+  useEffect(() => {
+    if (loaded) {
+      sessionService.deleteSession();
+      sessionService.deleteUser();
+      props.history.replace('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded]);
   return (
     <AppBar {...rest} className={clsx(classes.root, className)}>
       <Toolbar>
@@ -51,7 +61,11 @@ export const Topbar = (props) => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton className={classes.signOutButton} color='inherit'>
+          <IconButton
+            className={classes.signOutButton}
+            onClick={() => logoutUser()}
+            color='inherit'
+          >
             <InputIcon />
           </IconButton>
         </Hidden>

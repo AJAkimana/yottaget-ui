@@ -14,3 +14,4 @@ export * from './AccountProfile';
 export * from './ChangePassword';
 export * from './AddHouseDialog';
 export * from './HouseImages';
+export * from './AddUserDialog';
