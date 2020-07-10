@@ -16,7 +16,8 @@ import { useSelector } from 'react-redux';
 import { useStyles } from '../utils/customStyles';
 import { loginUser } from '../redux/actions';
 import { toast } from 'react-toastify';
-import { sessionService } from 'redux-react-session';
+// import { sessionService } from 'redux-react-session';
+import { setSessionCookie, setSessionUser } from '../helpers/sessionUtils';
 
 export const SignIn = ({ location, history }) => {
   const { redirectUrl } = queryString.parse(location.search);
@@ -44,9 +45,11 @@ export const SignIn = ({ location, history }) => {
   }, [authenticated, redirectUrl]);
   useEffect(() => {
     if (loggedIn) {
-      sessionService.saveSession({ token: userInfo.token });
+      // sessionService.saveSession({ token: userInfo.token });
+      setSessionCookie(userInfo.token);
       delete userInfo.token;
-      sessionService.saveUser(userInfo);
+      // sessionService.saveUser(userInfo);
+      setSessionUser(userInfo);
       toast(`Welcome ${userInfo.names}`);
       setTimeout(() => {
         history.replace(redirectUrl || authUrl);

@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
 
 import { Sidebar, Topbar } from '../adminLayouts/Main';
 import { renderRoutes } from 'react-router-config';
-import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { SessionContext } from '../components/utils';
+import { getSessionUser } from '../helpers/sessionUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,8 +27,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const AdminMain = ({ route, history }) => {
   const classes = useStyles();
-  const { authenticated, user } = useSelector(({ session }) => session);
-  const isUserAllowed = authenticated && Number(user.a_level) < 3;
+  const session = useContext(SessionContext);
+  const user = getSessionUser();
+  // const { authenticated, user } = useSellocalStorage.setItem('currentUser', JSON.stringify(user));ector(({ session }) => session);
+  const isUserAllowed = session && Number(user.a_level) < 3;
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true,
@@ -43,7 +46,8 @@ export const AdminMain = ({ route, history }) => {
     setOpenSidebar(false);
   };
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
-  if (!isUserAllowed) {
+
+  if (isUserAllowed) {
     return <Redirect to='/' />;
   }
   return (

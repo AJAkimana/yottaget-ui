@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
 import { toAccess } from '../../../helpers';
-import { useSelector } from 'react-redux';
+import { getSessionUser } from '../../../helpers/sessionUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,21 +26,23 @@ export const Profile = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  const { user } = useSelector(({ session }) => session);
+  // const { user } = useSelector(({ session }) => session);
+  const sessionUser = getSessionUser();
+  console.log('sessionuser', sessionUser);
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
       <Avatar
-        alt={user.names}
+        alt={sessionUser.names}
         className={classes.avatar}
         component={RouterLink}
-        src={user.avatar}
+        src={sessionUser.avatar}
         to='/settings'
       />
       <Typography className={classes.name} variant='h4'>
-        {user.names}
+        {sessionUser.names}
       </Typography>
-      <Typography variant='body2'>{toAccess(user.a_level)}</Typography>
+      <Typography variant='body2'>{toAccess(sessionUser.a_level)}</Typography>
     </div>
   );
 };

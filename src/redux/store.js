@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import promise from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -7,6 +7,8 @@ import { errorHandler } from './errorHander';
 
 const withMiddlware =
   process.env.NODE_ENV === 'development'
-    ? composeWithDevTools(applyMiddleware(errorHandler, thunk, promise))
-    : applyMiddleware(errorHandler, thunk, promise);
-export const store = createStore(reducers, {}, withMiddlware);
+    ? composeWithDevTools(
+        compose(applyMiddleware(errorHandler, thunk, promise))
+      )
+    : compose(applyMiddleware(errorHandler, thunk, promise));
+export const store = createStore(reducers, undefined, withMiddlware);

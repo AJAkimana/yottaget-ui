@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { BtnSaver } from './commons';
-import { useSelector } from 'react-redux';
+import { getSessionUser } from '../helpers/sessionUtils';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -21,7 +21,8 @@ export const AccountDetails = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  const { user: theUser } = useSelector(({ session }) => session);
+  // const { user: theUser } = useSelector(({ session }) => session);
+  const theUser = getSessionUser();
   const [user, setUser] = useState(theUser);
 
   const handleChange = ({ target: { name, value } }) => {

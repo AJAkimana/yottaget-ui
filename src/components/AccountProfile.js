@@ -11,8 +11,8 @@ import {
   Divider,
   Button,
 } from '@material-ui/core';
-import { useSelector } from 'react-redux';
 import { toAccess } from '../helpers';
+import { getSessionUser } from '../helpers/sessionUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -38,7 +38,8 @@ export const AccountProfile = (props) => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  const { user } = useSelector(({ session }) => session);
+  // const { user } = useSelector(({ session }) => session);
+  const user = getSessionUser();
   user.timezone = 'Kigali';
 
   return (
