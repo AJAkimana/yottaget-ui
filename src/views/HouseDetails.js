@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { getHouseDetails } from '../redux/actions';
 import { Skeleton } from '@material-ui/lab';
 import { Page, HouseImages } from '../components';
-
 export const HouseDetails = ({ match }) => {
   const classes = useStyles();
   const { oneHouse } = useSelector(({ oneHouse }) => ({ oneHouse }));
@@ -77,5 +76,3 @@ export const HouseDetails = ({ match }) => {
         )}
       </Grid>
     </Page>
-  );
-};
