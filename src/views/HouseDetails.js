@@ -76,3 +76,5 @@ export const HouseDetails = ({ match }) => {
         )}
       </Grid>
     </Page>
+  );
+};
