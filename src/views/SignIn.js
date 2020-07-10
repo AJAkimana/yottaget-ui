@@ -27,14 +27,18 @@ export const SignIn = ({ location, history }) => {
     session,
   }));
   const { loggedIn, loggingIn, userInfo } = login;
-  const { authenticated } = session;
+  const { authenticated, user: authUser } = session;
+  const isAdmin = authUser.a_level < 3;
+  const authUrl = isAdmin ? '/admin/dashboard' : '/';
   const onInputChange = ({ target }) => {
     setUser({ ...user, [target.name]: target.value });
   };
 
   useEffect(() => {
     if (authenticated) {
-      history.length ? history.goBack() : history.replace(redirectUrl || '/');
+      history.length
+        ? history.goBack()
+        : history.replace(redirectUrl || authUrl);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, redirectUrl]);
@@ -45,7 +49,7 @@ export const SignIn = ({ location, history }) => {
       sessionService.saveUser(userInfo);
       toast(`Welcome ${userInfo.names}`);
       setTimeout(() => {
-        history.replace(redirectUrl || '/');
+        history.replace(redirectUrl || authUrl);
       }, 5000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -11,13 +11,13 @@ import {
 } from '@material-ui/core';
 import { useStyles } from '../utils/customStyles';
 import { Link } from 'react-router-dom';
-import { HousesGrid } from '../components';
+import { HousesGrid, Page } from '../components';
 
 const houseUrl = `${process.env.PUBLIC_URL}/imgs/house-demo.png`;
 export const Homepage = () => {
   const classes = useStyles();
   return (
-    <>
+    <Page title='YottaGet'>
       <Grid className={classes.mainImageHome}>
         <Typography>Yottaget</Typography>
       </Grid>
@@ -106,6 +106,6 @@ export const Homepage = () => {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </Page>
   );
 };

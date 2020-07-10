@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { HousesLoading } from './HousesLoading';
 import { House } from './commons';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getHouses } from '../redux/actions';
 
 const houseUrl = `${process.env.PUBLIC_URL}/imgs/house-demo.png`;
-export const HousesGrid = ({ page, pageSize }) => {
+export const HousesGrid = ({ page, pageSize, area }) => {
   const { housesGet } = useSelector(({ housesGet }) => ({ housesGet }));
   useEffect(() => {
-    getHouses(page, pageSize);
+    getHouses(page, pageSize, area);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shallowEqual]);
+  }, [area]);
   return (
     <Grid container spacing={2}>
       {housesGet.loading ? (

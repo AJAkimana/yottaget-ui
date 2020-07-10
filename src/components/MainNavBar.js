@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -19,22 +19,31 @@ import {
   Search,
 } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
+import { SearchHouse } from './SearchHouse';
+import { useSelector } from 'react-redux';
 
+const nonAuthnavs = [
+  { name: 'Home', link: '/' },
+  { name: 'Admin dashboard', link: '/admin/dashboard' },
+  { name: 'Add your house', link: '/admin/houses' },
+  { name: 'Help', link: '/help' },
+];
+const authNavs = [
+  { name: 'Home', link: '/' },
+  { name: 'Admin dashboard', link: '/admin/dashboard' },
+  { name: 'Add your house', link: '/admin/houses' },
+  { name: 'Help', link: '/help' },
+];
 export const MainNavBar = ({ history }) => {
-  const navs = [
-    { name: 'Home', link: '/' },
-    { name: 'Add you house', link: '/add-house' },
-    { name: 'Help', link: '/help' },
-    { name: 'Log in', link: '/signin' },
-    { name: 'Sign up', link: '/signup' },
-  ];
+  const [openSearch, setOpenSearch] = useState(false);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const { authenticated, user } = useSelector(({ session }) => session);
+  const navs = authenticated ? authNavs : nonAuthnavs;
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -95,6 +104,11 @@ export const MainNavBar = ({ history }) => {
 
   return (
     <div className={classes.grow}>
+      <SearchHouse
+        open={openSearch}
+        setOpen={() => setOpenSearch(false)}
+        history={history}
+      />
       <CssBaseline />
       <AppBar>
         <Toolbar>
@@ -120,6 +134,7 @@ export const MainNavBar = ({ history }) => {
             </div>
             <InputBase
               placeholder='Search…'
+              onPointerEnter={() => setOpenSearch(true)}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -147,6 +162,23 @@ export const MainNavBar = ({ history }) => {
                 <Divider orientation='vertical' className={classes.divider} />
               </Grid>
             ))}
+
+            <Grid container alignItems='center' className={classes.gridHome}>
+              {authenticated ? (
+                <Typography variant='subtitle1' color='inherit' noWrap>
+                  {user.names}
+                </Typography>
+              ) : (
+                <Typography
+                  variant='subtitle1'
+                  color='inherit'
+                  noWrap
+                  onClick={() => history.push('/signin')}
+                >
+                  Sign in
+                </Typography>
+              )}
+            </Grid>
             <div className={classes.grow} />
             <Button variant='contained' color='primary'>
               Contact us!

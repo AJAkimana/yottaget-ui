@@ -22,3 +22,8 @@ export const registerState = {
   registered: false,
   userInfo: {},
 };
+export const searchState = {
+  loading: false,
+  loaded: false,
+  results: { houses: [], locations: [] },
+};

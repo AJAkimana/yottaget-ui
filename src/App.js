@@ -11,11 +11,19 @@ import { sessionService } from 'redux-react-session';
 
 const dt = new Date();
 const expiredTime = new Date(dt.setDate(dt.getDate() + 7));
-sessionService.initSessionService(store, {
+const validateSession = (session) => {
+  return true;
+};
+const options = {
+  refreshOnCheckAuth: true,
+  redirectPath: '/',
   driver: process.env.REACT_APP_SESSION_DRIVER,
   expires: expiredTime,
-  refreshOnCheckAuth: true,
-});
+  validateSession,
+};
+(async () => {
+  await sessionService.initSessionService(store, options);
+})();
 export const App = () => {
   return (
     <Provider store={store}>

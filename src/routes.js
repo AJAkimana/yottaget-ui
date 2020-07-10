@@ -7,10 +7,47 @@ import {
   SignIn,
   SignUp,
   NotFound,
+  AdminMain,
+  Dashboard,
+  AdminUsers,
+  AdminHouses,
+  Account,
+  Settings,
 } from './views';
 import { Redirect } from 'react-router-dom';
 
 export const routes = [
+  {
+    path: '/admin',
+    component: AdminMain,
+    routes: [
+      {
+        path: '/admin/dashboard',
+        exact: true,
+        component: Dashboard,
+      },
+      {
+        path: '/admin/users',
+        exact: true,
+        component: AdminUsers,
+      },
+      {
+        path: '/admin/houses',
+        exact: true,
+        component: AdminHouses,
+      },
+      {
+        path: '/admin/account',
+        exact: true,
+        component: Account,
+      },
+      {
+        path: '/admin/settings',
+        exact: true,
+        component: Settings,
+      },
+    ],
+  },
   {
     path: '/',
     component: Main,
