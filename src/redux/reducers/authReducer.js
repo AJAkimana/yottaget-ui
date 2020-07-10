@@ -4,6 +4,7 @@ import {
   LOGIN_USER,
   REGISTER_USER,
   LOG_OUT_USER,
+  UPDATE_USER,
 } from '../actions/actionTypes';
 
 export const loginReducer = (state = loginState, action) => {
@@ -59,6 +60,28 @@ export const signOutReducer = (state = baseState('message', ''), action) => {
         message: action.payload.data.message,
       };
     case rejected(LOG_OUT_USER):
+    default:
+      return {
+        ...state,
+        loading: false,
+      };
+  }
+};
+export const userUpdateReducer = (state = baseState('message', ''), action) => {
+  switch (action.type) {
+    case pending(UPDATE_USER):
+      return {
+        ...state,
+        loading: true,
+      };
+    case fulfilled(UPDATE_USER):
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        message: action.payload.data.message,
+      };
+    case rejected(UPDATE_USER):
     default:
       return {
         ...state,

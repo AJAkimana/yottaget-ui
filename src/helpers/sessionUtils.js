@@ -12,11 +12,9 @@ export const setSessionUser = (userInfo) => {
 
 export const getSessionCookie = () => {
   const sessionCookie = Cookies.get();
-
   if (
-    !sessionCookie === undefined ||
-    sessionCookie['PHPSESSIONID'] ||
-    sessionCookie['USER_DATA']
+    sessionCookie['PHPSESSIONID'] === undefined ||
+    sessionCookie['USER_DATA'] === undefined
   ) {
     return null;
   } else {

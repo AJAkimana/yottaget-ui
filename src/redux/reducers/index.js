@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
-import { sessionReducer } from 'redux-react-session';
-import { loginReducer, registerReducer, signOutReducer } from './authReducer';
+// import { sessionReducer } from 'redux-react-session';
+import {
+  loginReducer,
+  registerReducer,
+  signOutReducer,
+  userUpdateReducer,
+} from './authReducer';
 import {
   sampleHousesReducer,
   housesReducer,
@@ -11,7 +16,7 @@ import { usersReducer, addUserReducer } from './usersReducer';
 import { locationsReducer } from './locationsReducer';
 
 export default combineReducers({
-  session: sessionReducer,
+  // session: sessionReducer,
   login: loginReducer,
   register: registerReducer,
   sampleHouses: sampleHousesReducer,
@@ -23,4 +28,5 @@ export default combineReducers({
   houseAdd: addHouseReducer,
   addUser: addUserReducer,
   userOut: signOutReducer,
+  userUpdate: userUpdateReducer,
 });

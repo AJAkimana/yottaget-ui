@@ -10,12 +10,13 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
+import Cookies from 'js-cookie';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import { logoutUser } from '../../redux/actions';
 import { useSelector } from 'react-redux';
-import { sessionService } from 'redux-react-session';
+// import { sessionService } from 'redux-react-session';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,8 +38,10 @@ export const Topbar = (props) => {
   const { loaded } = useSelector(({ userOut }) => userOut);
   useEffect(() => {
     if (loaded) {
-      sessionService.deleteSession();
-      sessionService.deleteUser();
+      // sessionService.deleteSession();
+      // sessionService.deleteUser();
+      Cookies.remove('PHPSESSIONID');
+      Cookies.remove('USER_DATA');
       props.history.replace('/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

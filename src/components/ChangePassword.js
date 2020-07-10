@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -7,9 +7,12 @@ import {
   CardContent,
   CardActions,
   Divider,
-  Button,
   TextField,
 } from '@material-ui/core';
+import { BtnSaver } from './commons/BtnSaver';
+import { useSelector } from 'react-redux';
+import { logoutUser, updateUser } from '../redux/actions';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -17,21 +20,32 @@ const useStyles = makeStyles(() => ({
 
 export const ChangePassword = (props) => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
 
   const [values, setValues] = useState({
+    current: '',
     password: '',
     confirm: '',
   });
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
+  const { loading, loaded } = useSelector(({ userUpdate }) => userUpdate);
+  useEffect(() => {
+    if (loaded) {
+      logoutUser();
+    }
+  }, [loaded]);
+  const handleChange = ({ target: { name, value } }) => {
+    setValues({ ...values, [name]: value });
   };
-
+  const handleSubmit = () => {
+    const { confirm, password } = values;
+    if (confirm !== password) {
+      toast('Sorry confirm the new password');
+      return;
+    }
+    delete values.confirm;
+    values.isPassword = true;
+    updateUser(values);
+  };
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
       <form>
@@ -40,10 +54,20 @@ export const ChangePassword = (props) => {
         <CardContent>
           <TextField
             fullWidth
-            label='Password'
+            label='Current password'
+            name='current'
+            onChange={handleChange}
+            type='password'
+            value={values.current}
+            variant='outlined'
+          />
+          <TextField
+            fullWidth
+            label='New password'
             name='password'
             onChange={handleChange}
             type='password'
+            style={{ marginTop: '1rem' }}
             value={values.password}
             variant='outlined'
           />
@@ -60,9 +84,12 @@ export const ChangePassword = (props) => {
         </CardContent>
         <Divider />
         <CardActions>
-          <Button color='primary' variant='outlined'>
-            Update
-          </Button>
+          <BtnSaver
+            loading={loading}
+            success={loaded}
+            message='Change password'
+            onSave={() => handleSubmit()}
+          />
         </CardActions>
       </form>
     </Card>

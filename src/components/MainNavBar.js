@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -20,7 +20,9 @@ import {
 } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
 import { SearchHouse } from './SearchHouse';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { SessionContext } from './utils';
+import { getSessionUser } from '../helpers/sessionUtils';
 
 const nonAuthnavs = [
   { name: 'Home', link: '/' },
@@ -42,8 +44,11 @@ export const MainNavBar = ({ history }) => {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const { authenticated, user } = useSelector(({ session }) => session);
-  const navs = authenticated ? authNavs : nonAuthnavs;
+  const session = useContext(SessionContext);
+  const user = getSessionUser();
+
+  // const { authenticated, user } = useSelector(({ session }) => session);
+  const navs = session ? authNavs : nonAuthnavs;
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -164,7 +169,7 @@ export const MainNavBar = ({ history }) => {
             ))}
 
             <Grid container alignItems='center' className={classes.gridHome}>
-              {authenticated ? (
+              {session ? (
                 <Typography variant='subtitle1' color='inherit' noWrap>
                   {user.names}
                 </Typography>

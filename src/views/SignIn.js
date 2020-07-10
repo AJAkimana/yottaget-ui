@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Avatar,
   Button,
@@ -17,32 +17,34 @@ import { useStyles } from '../utils/customStyles';
 import { loginUser } from '../redux/actions';
 import { toast } from 'react-toastify';
 // import { sessionService } from 'redux-react-session';
-import { setSessionCookie, setSessionUser } from '../helpers/sessionUtils';
+import {
+  setSessionCookie,
+  setSessionUser,
+  getSessionUser,
+} from '../helpers/sessionUtils';
+import { SessionContext } from '../components/utils';
 
 export const SignIn = ({ location, history }) => {
   const { redirectUrl } = queryString.parse(location.search);
   const classes = useStyles();
   const [user, setUser] = useState({ phone: '', password: '' });
-  const { login, session } = useSelector(({ login, session }) => ({
-    login,
-    session,
-  }));
-  const { loggedIn, loggingIn, userInfo } = login;
-  const { authenticated, user: authUser } = session;
-  const isAdmin = authUser.a_level < 3;
+  const { loggedIn, loggingIn, userInfo } = useSelector(({ login }) => login);
+  const session = useContext(SessionContext);
+  const authUser = getSessionUser();
+  const isAdmin = Number(authUser.a_level) < 3;
   const authUrl = isAdmin ? '/admin/dashboard' : '/';
   const onInputChange = ({ target }) => {
     setUser({ ...user, [target.name]: target.value });
   };
 
   useEffect(() => {
-    if (authenticated) {
+    if (session) {
       history.length
         ? history.goBack()
         : history.replace(redirectUrl || authUrl);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated, redirectUrl]);
+  }, [session, redirectUrl]);
   useEffect(() => {
     if (loggedIn) {
       // sessionService.saveSession({ token: userInfo.token });

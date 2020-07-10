@@ -47,7 +47,7 @@ export const AdminMain = ({ route, history }) => {
   };
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
-  if (isUserAllowed) {
+  if (!isUserAllowed) {
     return <Redirect to='/' />;
   }
   return (
