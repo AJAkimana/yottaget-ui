@@ -7,17 +7,17 @@ import { getHouses } from '../redux/actions';
 
 const houseUrl = `${process.env.PUBLIC_URL}/imgs/house-demo.png`;
 export const HousesGrid = ({ page, pageSize, area }) => {
-  const { housesGet } = useSelector(({ housesGet }) => ({ housesGet }));
+  const { loading, houses } = useSelector(({ housesGet }) => housesGet);
   useEffect(() => {
     getHouses(page, pageSize, area);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [area]);
   return (
     <Grid container spacing={2}>
-      {housesGet.loading ? (
+      {loading ? (
         <HousesLoading numberOfItems={3} />
-      ) : housesGet.houses.length ? (
-        housesGet.houses.map((house, houseIndex) => (
+      ) : houses.length ? (
+        houses.map((house, houseIndex) => (
           <Grid key={houseIndex} item md={4} xs={12}>
             <House
               houseUrl={house.coverImage}

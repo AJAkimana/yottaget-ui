@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardHeader,
@@ -10,27 +8,47 @@ import {
   Grid,
   TextField,
 } from '@material-ui/core';
+import Cookies from 'js-cookie';
 import { BtnSaver } from './commons';
 import { getSessionUser } from '../helpers/sessionUtils';
-
-const useStyles = makeStyles(() => ({
-  root: {},
-}));
+import { useSelector } from 'react-redux';
+import { logoutUser, updateUser } from '../redux/actions';
 
 export const AccountDetails = (props) => {
-  const { className, ...rest } = props;
-
-  const classes = useStyles();
   // const { user: theUser } = useSelector(({ session }) => session);
   const theUser = getSessionUser();
   const [user, setUser] = useState(theUser);
-
+  const {
+    userUpdate: { loading, loaded },
+    userOut: { loaded: hasLoggedOut },
+  } = useSelector(({ userUpdate, userOut }) => ({ userUpdate, userOut }));
+  useEffect(() => {
+    if (loaded) {
+      logoutUser();
+    }
+  }, [loaded]);
+  useEffect(() => {
+    if (hasLoggedOut) {
+      // sessionService.deleteSession();
+      // sessionService.deleteUser();
+      Cookies.remove('PHPSESSIONID');
+      Cookies.remove('USER_DATA');
+      window.location.replace('/');
+    }
+  }, [hasLoggedOut]);
   const handleChange = ({ target: { name, value } }) => {
     setUser({ ...user, [name]: value });
   };
-
+  const handleSubmit = () => {
+    user.isPassword = false;
+    delete user.id;
+    delete user.prev_passwords;
+    delete user.createdAt;
+    delete user.a_level;
+    updateUser(user);
+  };
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
+    <Card>
       <form autoComplete='off' noValidate>
         <CardHeader subheader='The information can be edited' title='Profile' />
         <Divider />
@@ -89,7 +107,12 @@ export const AccountDetails = (props) => {
         </CardContent>
         <Divider />
         <CardActions>
-          <BtnSaver />
+          <BtnSaver
+            loading={loading}
+            success={loaded}
+            message='Update profile'
+            onSave={() => handleSubmit()}
+          />
         </CardActions>
       </form>
     </Card>

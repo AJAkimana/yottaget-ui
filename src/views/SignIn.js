@@ -54,7 +54,7 @@ export const SignIn = ({ location, history }) => {
       setSessionUser(userInfo);
       toast(`Welcome ${userInfo.names}`);
       setTimeout(() => {
-        history.replace(redirectUrl || authUrl);
+        window.location.replace(redirectUrl || authUrl);
       }, 5000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

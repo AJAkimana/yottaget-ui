@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
 import {
   Card,
   CardHeader,
@@ -9,30 +7,36 @@ import {
   Divider,
   TextField,
 } from '@material-ui/core';
+import Cookies from 'js-cookie';
 import { BtnSaver } from './commons/BtnSaver';
 import { useSelector } from 'react-redux';
 import { logoutUser, updateUser } from '../redux/actions';
 import { toast } from 'react-toastify';
 
-const useStyles = makeStyles(() => ({
-  root: {},
-}));
-
-export const ChangePassword = (props) => {
-  const { className, ...rest } = props;
-  const classes = useStyles();
-
+export const ChangePassword = () => {
   const [values, setValues] = useState({
     current: '',
     password: '',
     confirm: '',
   });
-  const { loading, loaded } = useSelector(({ userUpdate }) => userUpdate);
+  const {
+    userUpdate: { loading, loaded },
+    userOut: { loaded: hasLoggedOut },
+  } = useSelector(({ userUpdate, userOut }) => ({ userUpdate, userOut }));
   useEffect(() => {
     if (loaded) {
       logoutUser();
     }
   }, [loaded]);
+  useEffect(() => {
+    if (hasLoggedOut) {
+      // sessionService.deleteSession();
+      // sessionService.deleteUser();
+      Cookies.remove('PHPSESSIONID');
+      Cookies.remove('USER_DATA');
+      window.location.replace('/');
+    }
+  }, [hasLoggedOut]);
   const handleChange = ({ target: { name, value } }) => {
     setValues({ ...values, [name]: value });
   };
@@ -47,7 +51,7 @@ export const ChangePassword = (props) => {
     updateUser(values);
   };
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
+    <Card>
       <form>
         <CardHeader subheader='Update password' title='Password' />
         <Divider />

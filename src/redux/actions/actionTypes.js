@@ -3,6 +3,7 @@ export const REGISTER_USER = 'REGISTER_USER';
 export const SET_LOGGED_USER = 'SET_LOGGED_USER';
 export const LOG_OUT_USER = 'LOG_OUT_USER';
 export const UPDATE_USER = 'UPDATE_USER';
+export const GET_DASHBOARD_COUNT = 'GET_DASHBOARD_COUNT';
 
 export const GET_SAMPLE_HOUSES = 'GET_SAMPLE_HOUSES';
 export const GET_HOUSES = 'GET_HOUSES';

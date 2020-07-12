@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
@@ -7,7 +6,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Avatar,
   Checkbox,
   Table,
   TableBody,
@@ -17,8 +15,8 @@ import {
   Typography,
   TablePagination,
 } from '@material-ui/core';
-
-import { getInitials } from '../helpers';
+import { useSelector } from 'react-redux';
+import { getHouses } from '../redux/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -40,47 +38,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const HousesTable = (props) => {
-  const { className, users, ...rest } = props;
-
+export const HousesTable = () => {
   const classes = useStyles();
-
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const { loading, houses } = useSelector(({ housesGet }) => housesGet);
+  const [selectedHouses, setSelectedHouses] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-
+  useEffect(() => {
+    getHouses(page + 1, rowsPerPage, null, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, rowsPerPage]);
   const handleSelectAll = (event) => {
-    const { users } = props;
-
-    let selectedUsers;
+    let selectedHouses;
 
     if (event.target.checked) {
-      selectedUsers = users.map((user) => user.id);
+      selectedHouses = houses.map((house) => house.id);
     } else {
-      selectedUsers = [];
+      selectedHouses = [];
     }
 
-    setSelectedUsers(selectedUsers);
+    setSelectedHouses(selectedHouses);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedUsers.indexOf(id);
-    let newSelectedUsers = [];
+    const selectedIndex = selectedHouses.indexOf(id);
+    let newSelectedHouses = [];
 
     if (selectedIndex === -1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers, id);
+      newSelectedHouses = newSelectedHouses.concat(selectedHouses, id);
     } else if (selectedIndex === 0) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
-    } else if (selectedIndex === selectedUsers.length - 1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
+      newSelectedHouses = newSelectedHouses.concat(selectedHouses.slice(1));
+    } else if (selectedIndex === selectedHouses.length - 1) {
+      newSelectedHouses = newSelectedHouses.concat(selectedHouses.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedUsers = newSelectedUsers.concat(
-        selectedUsers.slice(0, selectedIndex),
-        selectedUsers.slice(selectedIndex + 1)
+      newSelectedHouses = newSelectedHouses.concat(
+        selectedHouses.slice(0, selectedIndex),
+        selectedHouses.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedUsers(newSelectedUsers);
+    setSelectedHouses(newSelectedHouses);
   };
 
   const handlePageChange = (event, page) => {
@@ -92,7 +89,7 @@ export const HousesTable = (props) => {
   };
 
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
+    <Card className={classes.root}>
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           <div className={classes.inner}>
@@ -101,11 +98,11 @@ export const HousesTable = (props) => {
                 <TableRow>
                   <TableCell padding='checkbox'>
                     <Checkbox
-                      checked={selectedUsers.length === users.length}
+                      checked={selectedHouses.length === houses.length}
                       color='primary'
                       indeterminate={
-                        selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
+                        selectedHouses.length > 0 &&
+                        selectedHouses.length < houses.length
                       }
                       onChange={handleSelectAll}
                     />
@@ -118,40 +115,40 @@ export const HousesTable = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, rowsPerPage).map((user) => (
-                  <TableRow
-                    className={classes.tableRow}
-                    hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
-                  >
-                    <TableCell padding='checkbox'>
-                      <Checkbox
-                        checked={selectedUsers.indexOf(user.id) !== -1}
-                        color='primary'
-                        onChange={(event) => handleSelectOne(event, user.id)}
-                        value='true'
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.nameContainer}>
-                        <Avatar className={classes.avatar} src={user.avatarUrl}>
-                          {getInitials(user.name)}
-                        </Avatar>
-                        <Typography variant='body1'>{user.name}</Typography>
-                      </div>
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {loading ? (
+                  <Typography>Loading please wait, ...</Typography>
+                ) : (
+                  houses.slice(0, rowsPerPage).map((house) => (
+                    <TableRow
+                      className={classes.tableRow}
+                      hover
+                      key={house.id}
+                      selected={selectedHouses.indexOf(house.id) !== -1}
+                    >
+                      <TableCell padding='checkbox'>
+                        <Checkbox
+                          checked={selectedHouses.indexOf(house.id) !== -1}
+                          color='primary'
+                          onChange={(event) => handleSelectOne(event, house.id)}
+                          value='true'
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div className={classes.nameContainer}>
+                          <Typography variant='body1'>
+                            {house.description}
+                          </Typography>
+                        </div>
+                      </TableCell>
+                      <TableCell>{house.price}</TableCell>
+                      <TableCell>{house.landlord.names}</TableCell>
+                      <TableCell>{house.landlord.phone}</TableCell>
+                      <TableCell>
+                        {moment(house.createdAt).format('DD/MM/YYYY')}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
@@ -160,7 +157,7 @@ export const HousesTable = (props) => {
       <CardActions className={classes.actions}>
         <TablePagination
           component='div'
-          count={users.length}
+          count={houses.length}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPageChange}
           page={page}

@@ -12,7 +12,7 @@ import {
   searchReducer,
 } from './housesReducer';
 import { oneHouseReducer, addHouseReducer } from './oneHouseReducer';
-import { usersReducer, addUserReducer } from './usersReducer';
+import { usersReducer, addUserReducer, userDashReducer } from './usersReducer';
 import { locationsReducer } from './locationsReducer';
 
 export default combineReducers({
@@ -29,4 +29,5 @@ export default combineReducers({
   addUser: addUserReducer,
   userOut: signOutReducer,
   userUpdate: userUpdateReducer,
+  userDash: userDashReducer,
 });

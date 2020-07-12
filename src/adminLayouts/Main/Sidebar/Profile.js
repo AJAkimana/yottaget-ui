@@ -28,7 +28,6 @@ export const Profile = (props) => {
   const classes = useStyles();
   // const { user } = useSelector(({ session }) => session);
   const sessionUser = getSessionUser();
-  console.log('sessionuser', sessionUser);
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
