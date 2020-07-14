@@ -17,34 +17,27 @@ import { useStyles } from '../utils/customStyles';
 import { loginUser } from '../redux/actions';
 import { toast } from 'react-toastify';
 // import { sessionService } from 'redux-react-session';
-import {
-  setSessionCookie,
-  setSessionUser,
-  getSessionUser,
-} from '../helpers/sessionUtils';
+import { setSessionCookie, setSessionUser } from '../helpers/sessionUtils';
 import { SessionContext } from '../components/utils';
+import { ForgetPasswordDialog } from '../components/ForgetPasswordDialog';
 
 export const SignIn = ({ location, history }) => {
   const { redirectUrl } = queryString.parse(location.search);
   const classes = useStyles();
   const [user, setUser] = useState({ phone: '', password: '' });
+  const [openForget, setOpenForget] = useState(false);
   const { loggedIn, loggingIn, userInfo } = useSelector(({ login }) => login);
   const session = useContext(SessionContext);
-  const authUser = getSessionUser();
-  const isAdmin = Number(authUser.a_level) < 3;
-  const authUrl = isAdmin ? '/admin/dashboard' : '/';
+
   const onInputChange = ({ target }) => {
     setUser({ ...user, [target.name]: target.value });
   };
-
+  const toUrl = (user) => (Number(user.a_level) < 3 ? '/admin/dashboard' : '/');
   useEffect(() => {
     if (session) {
-      history.length
-        ? history.goBack()
-        : history.replace(redirectUrl || authUrl);
+      window.history.back();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session, redirectUrl]);
+  }, [session]);
   useEffect(() => {
     if (loggedIn) {
       // sessionService.saveSession({ token: userInfo.token });
@@ -53,14 +46,19 @@ export const SignIn = ({ location, history }) => {
       // sessionService.saveUser(userInfo);
       setSessionUser(userInfo);
       toast(`Welcome ${userInfo.names}`);
+
       setTimeout(() => {
-        window.location.replace(redirectUrl || authUrl);
+        window.location.replace(redirectUrl || toUrl(userInfo));
       }, 5000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn, userInfo]);
   return (
     <Container component='main' maxWidth='xs'>
+      <ForgetPasswordDialog
+        isOpen={openForget}
+        setIsOpen={() => setOpenForget(false)}
+      />
       <div className={classes.authPaper}>
         <Avatar className={classes.authAvatar}>
           <LockOutlined />
@@ -111,7 +109,7 @@ export const SignIn = ({ location, history }) => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to='#' variant='body2'>
+              <Link to='#' variant='body2' onClick={() => setOpenForget(true)}>
                 Forgot password?
               </Link>
             </Grid>

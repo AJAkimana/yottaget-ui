@@ -11,9 +11,19 @@ import {
   housesReducer,
   searchReducer,
 } from './housesReducer';
-import { oneHouseReducer, addHouseReducer } from './oneHouseReducer';
-import { usersReducer, addUserReducer, userDashReducer } from './usersReducer';
+import {
+  oneHouseReducer,
+  addHouseReducer,
+  houseImageReducer,
+} from './oneHouseReducer';
+import {
+  usersReducer,
+  addUserReducer,
+  userDashReducer,
+  forgetPasswordReducer,
+} from './usersReducer';
 import { locationsReducer } from './locationsReducer';
+import { utilityGetReducer } from './utilitityReducer';
 
 export default combineReducers({
   // session: sessionReducer,
@@ -30,4 +40,7 @@ export default combineReducers({
   userOut: signOutReducer,
   userUpdate: userUpdateReducer,
   userDash: userDashReducer,
+  forgetPass: forgetPasswordReducer,
+  utilityGet: utilityGetReducer,
+  houseImagesAdd: houseImageReducer,
 });

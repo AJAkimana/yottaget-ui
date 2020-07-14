@@ -26,7 +26,6 @@ import { getSessionUser } from '../helpers/sessionUtils';
 
 const nonAuthnavs = [
   { name: 'Home', link: '/' },
-  { name: 'Admin dashboard', link: '/admin/dashboard' },
   { name: 'Add your house', link: '/admin/houses' },
   { name: 'Help', link: '/help' },
 ];

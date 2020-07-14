@@ -14,9 +14,13 @@ import {
   TableRow,
   Typography,
   TablePagination,
+  ButtonGroup,
+  Button,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { getHouses } from '../redux/actions';
+import { AddHouseImages } from './AddHouseImages';
+import { Skeleton, Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -40,23 +44,30 @@ const useStyles = makeStyles((theme) => ({
 
 export const HousesTable = () => {
   const classes = useStyles();
-  const { loading, houses } = useSelector(({ housesGet }) => housesGet);
+  const {
+    housesGet: { loading, houses },
+    houseAdd: { loaded },
+    houseImagesAdd: { loaded: imagesAdded },
+  } = useSelector(({ housesGet, houseAdd, houseImagesAdd }) => ({
+    housesGet,
+    houseAdd,
+    houseImagesAdd,
+  }));
   const [selectedHouses, setSelectedHouses] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
+  const [openAddImages, setOpenAddImages] = useState(false);
+  const [currentHouse, setCurrentHouse] = useState({});
   useEffect(() => {
     getHouses(page + 1, rowsPerPage, null, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, loaded, imagesAdded]);
   const handleSelectAll = (event) => {
-    let selectedHouses;
+    let selectedHouses = [];
 
     if (event.target.checked) {
       selectedHouses = houses.map((house) => house.id);
-    } else {
-      selectedHouses = [];
     }
-
     setSelectedHouses(selectedHouses);
   };
 
@@ -90,35 +101,49 @@ export const HousesTable = () => {
 
   return (
     <Card className={classes.root}>
+      <AddHouseImages
+        open={openAddImages}
+        setOpen={() => setOpenAddImages(false)}
+        house={currentHouse}
+      />
       <CardContent className={classes.content}>
         <PerfectScrollbar>
+          <Alert severity='error'>
+            A house with no images will not appear on the platiform — check it
+            out!
+          </Alert>
           <div className={classes.inner}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell padding='checkbox'>
-                    <Checkbox
-                      checked={selectedHouses.length === houses.length}
-                      color='primary'
-                      indeterminate={
-                        selectedHouses.length > 0 &&
-                        selectedHouses.length < houses.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Owner</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {loading ? (
-                  <Typography>Loading please wait, ...</Typography>
-                ) : (
-                  houses.slice(0, rowsPerPage).map((house) => (
+            {loading || !houses.length ? (
+              <div className={classes.root}>
+                <Skeleton animation='wave' />
+                <Skeleton animation='wave' />
+                <Skeleton animation='wave' />
+              </div>
+            ) : (
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell padding='checkbox'>
+                      <Checkbox
+                        checked={selectedHouses.length === houses.length}
+                        color='primary'
+                        indeterminate={
+                          selectedHouses.length > 0 &&
+                          selectedHouses.length < houses.length
+                        }
+                        onChange={handleSelectAll}
+                      />
+                    </TableCell>
+                    <TableCell>Description</TableCell>
+                    <TableCell>Price</TableCell>
+                    <TableCell>Owner</TableCell>
+                    <TableCell>Phone</TableCell>
+                    <TableCell>Registration date</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {houses.map((house) => (
                     <TableRow
                       className={classes.tableRow}
                       hover
@@ -134,11 +159,9 @@ export const HousesTable = () => {
                         />
                       </TableCell>
                       <TableCell>
-                        <div className={classes.nameContainer}>
-                          <Typography variant='body1'>
-                            {house.description}
-                          </Typography>
-                        </div>
+                        <Typography variant='body1'>
+                          {house.description}
+                        </Typography>
                       </TableCell>
                       <TableCell>{house.price}</TableCell>
                       <TableCell>{house.landlord.names}</TableCell>
@@ -146,11 +169,31 @@ export const HousesTable = () => {
                       <TableCell>
                         {moment(house.createdAt).format('DD/MM/YYYY')}
                       </TableCell>
+                      <TableCell>
+                        <ButtonGroup
+                          color='primary'
+                          size='small'
+                          aria-label='outlined primary button group'
+                        >
+                          {!house.images.length && (
+                            <Button
+                              onClick={() => {
+                                setCurrentHouse(house);
+                                setOpenAddImages(true);
+                              }}
+                            >
+                              Add images
+                            </Button>
+                          )}
+                          {/* <Button>Two</Button>
+                          <Button>Three</Button> */}
+                        </ButtonGroup>
+                      </TableCell>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
           </div>
         </PerfectScrollbar>
       </CardContent>

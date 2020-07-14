@@ -29,7 +29,7 @@ export const SearchHouse = ({ open, setOpen, history }) => {
   }, [searchKey]);
   const goTo = (type, item) => {
     setOpen();
-    const location = type === 'location' ? `?${item}` : `/${item}`;
+    const location = type === 'location' ? `?area=${item}` : `/${item}`;
     history.replace(`/houses${location}`);
   };
   return (

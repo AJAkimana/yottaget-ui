@@ -56,13 +56,8 @@ export const NotFound = () => {
         />
       </div>
       <div className={classes.buttonContainer}>
-        <Button
-          color='primary'
-          component={Link}
-          to='/dashboard'
-          variant='outlined'
-        >
-          Back to Dashboard
+        <Button color='primary' component={Link} to='/' variant='outlined'>
+          Back to home
         </Button>
       </div>
     </Page>

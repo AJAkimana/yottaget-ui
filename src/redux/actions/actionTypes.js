@@ -10,10 +10,13 @@ export const GET_HOUSES = 'GET_HOUSES';
 export const GET_HOUSE_DETAILS = 'GET_HOUSE_DETAILS';
 export const CREATE_HOUSE = 'CREATE_HOUSE';
 export const ADD_UTILITIES = 'ADD_UTILITIES';
+export const GET_UTILITIES = 'GET_UTILITIES';
+export const ADD_HOUSE_IMAGES = 'ADD_HOUSE_IMAGES';
 
 export const GET_LOCATIONS = 'GET_LOCATIONS';
 
 export const GET_USERS = 'GET_USERS';
 export const ADD_NEW_USER = 'ADD_NEW_USER';
+export const FORGET_PASSWORD = 'FORGET_PASSWORD';
 
 export const SEARCH_HOUSES = 'SEARCH_HOUSES';

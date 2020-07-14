@@ -23,7 +23,7 @@ export const AdminHouses = () => {
         btnTitle='Add house'
         openDialog={() => setIsOpen(true)}
       />
-      <div className={classes.content}>{<HousesTable houses={[]} />}</div>
+      <div className={classes.content}>{<HousesTable />}</div>
     </div>
   );
 };

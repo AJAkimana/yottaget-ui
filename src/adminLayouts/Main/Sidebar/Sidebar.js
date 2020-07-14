@@ -10,6 +10,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 import { Profile } from './Profile';
 import { SidebarNav } from './SidebarNav';
+import { getSessionUser } from '../../../helpers/sessionUtils';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -39,7 +40,31 @@ export const Sidebar = (props) => {
 
   const classes = useStyles();
 
-  const pages = [
+  const authAuser = getSessionUser();
+  const isAdmin = parseInt(authAuser.a_level) === 1;
+  const userPages = [
+    {
+      title: 'Dashboard',
+      href: '/admin/dashboard',
+      icon: <DashboardIcon />,
+    },
+    {
+      title: 'Houses',
+      href: '/admin/houses',
+      icon: <ShoppingBasketIcon />,
+    },
+    {
+      title: 'Account',
+      href: '/admin/account',
+      icon: <AccountBoxIcon />,
+    },
+    {
+      title: 'Settings',
+      href: '/admin/settings',
+      icon: <SettingsIcon />,
+    },
+  ];
+  const adminPages = [
     {
       title: 'Dashboard',
       href: '/admin/dashboard',
@@ -66,7 +91,7 @@ export const Sidebar = (props) => {
       icon: <SettingsIcon />,
     },
   ];
-
+  const pages = isAdmin ? adminPages : userPages;
   return (
     <Drawer
       anchor='left'

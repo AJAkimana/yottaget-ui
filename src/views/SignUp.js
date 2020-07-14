@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Avatar,
   Button,
@@ -10,47 +10,45 @@ import {
   Container,
   MenuItem,
 } from '@material-ui/core';
-import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { LockOutlined } from '@material-ui/icons';
 import { useStyles } from '../utils/customStyles';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { registerUser } from '../redux/actions';
+import { SessionContext } from '../components/utils';
 
 const userTypes = [
   { lavel: 2, name: 'Landloard' },
   { lavel: 3, name: 'Tenant' },
 ];
-export const SignUp = ({ location, history }) => {
-  const { redirectUrl } = queryString.parse(location.search);
+const info = {
+  username: '',
+  password: '',
+  phone: '',
+  email: '',
+  confirmPassword: '',
+  names: '',
+  a_level: 3,
+};
+export const SignUp = ({ location }) => {
   const classes = useStyles();
-  const [user, setUser] = useState({
-    username: '',
-    password: '',
-    phone: '',
-    email: '',
-    confirmPassword: '',
-    names: '',
-    a_level: 3,
-  });
-  const { register, session } = useSelector(({ register, session }) => ({
-    register,
-    session,
-  }));
-  const { registering, registered, userInfo } = register;
-  const { authenticated } = session;
+  const [user, setUser] = useState(info);
+  const { registering, registered, userInfo } = useSelector(
+    ({ register, session }) => register
+  );
+  const session = useContext(SessionContext);
   useEffect(() => {
-    if (authenticated) {
-      history.length ? history.goBack() : history.replace(redirectUrl || '/');
+    if (session) {
+      window.history.back();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated, redirectUrl]);
+  }, [session]);
   useEffect(() => {
     if (registered) {
+      setUser(info);
       toast(`Thanks ${userInfo.names} for registering, Go to login`);
       setTimeout(() => {
-        history.replace('/signin');
+        window.location.replace('/signin');
       }, 5000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

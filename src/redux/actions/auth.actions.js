@@ -14,7 +14,6 @@ export const loginUser = (userInfo) => {
   });
 };
 export const registerUser = (user) => {
-  delete user.confirmPassword;
   store.dispatch({
     type: REGISTER_USER,
     payload: http.post('/users/signup', user),
