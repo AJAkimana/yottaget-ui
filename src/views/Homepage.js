@@ -49,7 +49,13 @@ export const Homepage = () => {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size='small' variant='outlined' color='primary'>
+                  <Button
+                    component={Link}
+                    size='small'
+                    variant='outlined'
+                    color='primary'
+                    to='/houses'
+                  >
                     GET A HOUSE NOW
                   </Button>
                 </CardActions>

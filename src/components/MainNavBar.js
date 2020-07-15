@@ -226,6 +226,7 @@ export const MainNavBar = ({ history }) => {
             <InputBase
               placeholder='Search…'
               onPointerEnter={() => setOpenSearch(true)}
+              // onClick={() => setOpenSearch(true)}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
