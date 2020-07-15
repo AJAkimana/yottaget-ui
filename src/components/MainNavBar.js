@@ -11,18 +11,15 @@ import {
   Grid,
   InputBase,
   CssBaseline,
+  makeStyles,
+  fade,
 } from '@material-ui/core';
-import {
-  AccountCircle,
-  ComputerRounded,
-  MoreVert,
-  Search,
-} from '@material-ui/icons';
-import { useStyles } from '../utils/customStyles';
+import { ComputerRounded, MoreVert, Search } from '@material-ui/icons';
 import { SearchHouse } from './SearchHouse';
 // import { useSelector } from 'react-redux';
 import { SessionContext } from './utils';
 import { getSessionUser } from '../helpers/sessionUtils';
+import { Link } from 'react-router-dom';
 
 const nonAuthnavs = [
   { name: 'Home', link: '/' },
@@ -35,6 +32,85 @@ const authNavs = [
   { name: 'Add your house', link: '/admin/houses' },
   { name: 'Help', link: '/help' },
 ];
+
+const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 1,
+    marginBottom: theme.spacing(0),
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+  gridHome: {
+    cursor: 'pointer',
+    width: 'fit-content',
+    '& svg': {
+      margin: theme.spacing(1.5),
+    },
+    '& hr': {
+      margin: theme.spacing(0, 1.0),
+      backgroundColor: theme.palette.background.paper,
+    },
+  },
+  divider: {
+    maxHeight: '50%',
+  },
+}));
 export const MainNavBar = ({ history }) => {
   const [openSearch, setOpenSearch] = useState(false);
   const classes = useStyles();
@@ -48,6 +124,7 @@ export const MainNavBar = ({ history }) => {
 
   // const { authenticated, user } = useSelector(({ session }) => session);
   const navs = session ? authNavs : nonAuthnavs;
+  // eslint-disable-next-line no-unused-vars
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -92,16 +169,26 @@ export const MainNavBar = ({ history }) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label='account of current user'
-          aria-controls='primary-search-account-menu'
-          aria-haspopup='true'
-          color='inherit'
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+      <MenuItem>
+        <Typography component={Link} to='/'>
+          Home
+        </Typography>
+      </MenuItem>
+      <MenuItem>
+        {session ? (
+          <Typography component={Link} to='/admin/dashboard'>
+            {user.names}
+          </Typography>
+        ) : (
+          <Typography component={Link} to='/signin'>
+            Sign in
+          </Typography>
+        )}
+      </MenuItem>
+      <MenuItem>
+        <Typography component={Link} to='/'>
+          Help
+        </Typography>
       </MenuItem>
     </Menu>
   );

@@ -19,7 +19,7 @@ export const Homepage = () => {
   return (
     <Page title='YottaGet'>
       <Grid className={classes.mainImageHome}>
-        <Typography>Yottaget</Typography>
+        <Typography></Typography>
       </Grid>
       <Grid className={classes.container}>
         <Grid
