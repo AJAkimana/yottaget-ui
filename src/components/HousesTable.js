@@ -164,8 +164,12 @@ export const HousesTable = () => {
                         </Typography>
                       </TableCell>
                       <TableCell>{house.price}</TableCell>
-                      <TableCell>{house.landlord.names}</TableCell>
-                      <TableCell>{house.landlord.phone}</TableCell>
+                      <TableCell>
+                        {house.landlord ? house.landlord.names : ''}
+                      </TableCell>
+                      <TableCell>
+                        {house.landlord ? house.landlord.phone : ''}
+                      </TableCell>
                       <TableCell>
                         {moment(house.createdAt).format('DD/MM/YYYY')}
                       </TableCell>
